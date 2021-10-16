@@ -3,10 +3,8 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
 
-public class VistaDePrueba {
+public class VentanaDePrueba {
 
 	private JFrame frame;
 
@@ -17,7 +15,7 @@ public class VistaDePrueba {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VistaDePrueba window = new VistaDePrueba();
+					VentanaDePrueba window = new VentanaDePrueba();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -29,7 +27,7 @@ public class VistaDePrueba {
 	/**
 	 * Create the application.
 	 */
-	public VistaDePrueba() {
+	public VentanaDePrueba() {
 		initialize();
 	}
 
@@ -40,12 +38,6 @@ public class VistaDePrueba {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JLabel label = new JLabel("New label");
-		frame.getContentPane().add(label, BorderLayout.CENTER);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		frame.getContentPane().add(lblNewLabel, BorderLayout.NORTH);
 	}
 
 }
