@@ -12,6 +12,9 @@ import java.awt.FlowLayout;
 public class VentanaLogin extends JPanel {
 
 	
+	/**
+	 * 
+	 */
 	public final static String TAG = "VentanaLogin";
 	private JTextField txtContrasea;
 	private JTextField textField;
