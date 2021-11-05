@@ -56,6 +56,7 @@ public class VentanaPrincipal {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100,775, 800);
+		frame.setMinimumSize(new Dimension(700,500));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new BorderLayout(0, 0));
 			
