@@ -1,4 +1,4 @@
-package gui;
+package umu.tds.AppVideo.gui;
 
 import java.awt.EventQueue;
 

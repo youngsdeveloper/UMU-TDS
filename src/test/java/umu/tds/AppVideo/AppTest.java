@@ -1,8 +1,8 @@
-package umu.tds.apps;
+package umu.tds.AppVideo;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 /**
  * Unit test for simple App.

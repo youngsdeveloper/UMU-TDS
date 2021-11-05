@@ -4,11 +4,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>umu.tds.apps</groupId>
-  <artifactId>ProyectoTDS2021</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>umu.tds</groupId>
+  <artifactId>AppVideo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
 
-  <name>ProyectoTDS2021</name>
+  <name>AppVideo</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -25,13 +25,13 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    
     <!--  JCalendar -->
     <dependency>
 	  <groupId>com.toedter</groupId>
 	  <artifactId>jcalendar</artifactId>
 	  <version>1.4</version>
 	</dependency>
-	    
   </dependencies>
 
   <build>

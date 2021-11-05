@@ -1,4 +1,4 @@
-package umu.tds.apps;
+package umu.tds.AppVideo;
 
 /**
  * Hello world!
