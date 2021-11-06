@@ -16,7 +16,10 @@ public class Controlador {
 	}
 
 	public static Controlador getInstance() {
-		return instance != null ? instance : new Controlador();
+		if(instance==null)
+			instance = new Controlador();
+		
+		return instance;
 	}
 	
 	public Optional<Usuario> getUsuarioActual() {
