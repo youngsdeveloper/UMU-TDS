@@ -5,6 +5,7 @@ import java.util.Date;
 public class Usuario {
 
 	// Atributos
+	private int id;
 	private String nombre;
 	private String apellidos;
 	private Date fechaNacimiento;
@@ -12,8 +13,10 @@ public class Usuario {
 	private String username;
 	private String password;
 	
+	
 	//Constructor
 	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password) {
+		this.id = 0;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;
@@ -24,6 +27,13 @@ public class Usuario {
 	
 	// Getters & Setteres
 
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getNombre() {
 		return nombre;

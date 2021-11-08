@@ -3,6 +3,8 @@ package umu.tds.AppVideo.controlador;
 import java.util.Date;
 import java.util.Optional;
 
+import umu.tds.AppVideo.dao.FactoriaDAO;
+import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.models.Usuario;
 
 public class Controlador {
@@ -31,7 +33,10 @@ public class Controlador {
 
 		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
 		
-		// TODO: Guardar Usuario en UsuarioDAO
+		// DONE: Guardar Usuario en UsuarioDAO
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.create(usuario);
+		
 		// TODO: Guardar Usuario en CatalogoUsuarios
 		
 		
