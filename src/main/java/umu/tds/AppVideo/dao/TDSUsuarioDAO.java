@@ -3,6 +3,8 @@ package umu.tds.AppVideo.dao;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import beans.Entidad;
@@ -57,6 +59,39 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		eUsuario.setPropiedades(propiedades);
 		
 		return eUsuario;
+	}
+	
+	private Usuario entidadToUsuario(Entidad eUsuario) {
+
+		String nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
+		String apellidos = servPersistencia.recuperarPropiedadEntidad(eUsuario, APELLIDOS);
+		Date fechaNacimiento = new Date();
+		String email = servPersistencia.recuperarPropiedadEntidad(eUsuario, EMAIL);
+		String username = servPersistencia.recuperarPropiedadEntidad(eUsuario, USERNAME);
+		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
+
+		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
+		usuario.setId(eUsuario.getId());
+
+		return usuario;
+	}
+
+	
+	public Usuario get(int id) {
+		Entidad eUsuario = servPersistencia.recuperarEntidad(id);
+
+		return entidadToUsuario(eUsuario);
+	}
+	@Override
+	public List<Usuario> getUsuarios() {
+		List<Entidad> entidades = servPersistencia.recuperarEntidades(USUARIO);
+
+		List<Usuario> usuarios = new LinkedList<Usuario>();
+		for (Entidad eUsuario : entidades) {
+			usuarios.add(get(eUsuario.getId()));
+		}
+
+		return usuarios;
 	}
 
 	

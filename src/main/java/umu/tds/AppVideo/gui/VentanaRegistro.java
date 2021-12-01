@@ -17,6 +17,7 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class VentanaRegistro extends JPanel {
 
@@ -30,12 +31,12 @@ public class VentanaRegistro extends JPanel {
 	private JLabel lblEmail_1;
 	private JTextField txtFieldUsername;
 	private JLabel lblEmail_2;
-	private JTextField txtFieldPassword;
 	private JLabel lblEmail_3;
-	private JTextField txtFieldPasswordConfirmation;
 	private JButton btnRegistrar;
 	private JButton btnCancelar;
 	private JLabel lblCamposObligatorios;
+	private JPasswordField txtFieldPassword;
+	private JPasswordField txtFieldPasswordConfirmation;
 
 	/**
 	 * Create the panel.
@@ -43,9 +44,9 @@ public class VentanaRegistro extends JPanel {
 	public VentanaRegistro() {
 		setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{98, 192, 65, 0, 0};
+		gridBagLayout.columnWidths = new int[]{100, 192, 65, 100, 0};
 		gridBagLayout.rowHeights = new int[]{63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -141,8 +142,7 @@ public class VentanaRegistro extends JPanel {
 		gbc_lblEmail_2.gridy = 7;
 		add(lblEmail_2, gbc_lblEmail_2);
 		
-		txtFieldPassword = new JTextField();
-		txtFieldPassword.setColumns(10);
+		txtFieldPassword = new JPasswordField();
 		GridBagConstraints gbc_txtFieldPassword = new GridBagConstraints();
 		gbc_txtFieldPassword.insets = new Insets(0, 0, 5, 5);
 		gbc_txtFieldPassword.fill = GridBagConstraints.HORIZONTAL;
@@ -158,15 +158,6 @@ public class VentanaRegistro extends JPanel {
 		gbc_lblEmail_3.gridy = 8;
 		add(lblEmail_3, gbc_lblEmail_3);
 		
-		txtFieldPasswordConfirmation = new JTextField();
-		txtFieldPasswordConfirmation.setColumns(10);
-		GridBagConstraints gbc_txtFieldPasswordConfirmation = new GridBagConstraints();
-		gbc_txtFieldPasswordConfirmation.insets = new Insets(0, 0, 5, 5);
-		gbc_txtFieldPasswordConfirmation.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtFieldPasswordConfirmation.gridx = 2;
-		gbc_txtFieldPasswordConfirmation.gridy = 8;
-		add(txtFieldPasswordConfirmation, gbc_txtFieldPasswordConfirmation);
-		
 		btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -176,8 +167,8 @@ public class VentanaRegistro extends JPanel {
 				Date fechaNacimiento = txtFieldFechaNacimiento.getDate();
 				String email = txtFieldEmail.getText();
 				String username = txtFieldUsername.getText();
-				String password = txtFieldPassword.getText();
-				String passwordConfirmation = txtFieldPasswordConfirmation.getText();
+				String password = txtFieldPassword.getPassword().toString();
+				String passwordConfirmation = txtFieldPasswordConfirmation.getPassword().toString();
 				
 				if(password.equals(passwordConfirmation)) {
 					Controlador.getInstance().registrarUsuario(nombre, apellidos, fechaNacimiento, email, username, passwordConfirmation);
@@ -192,6 +183,14 @@ public class VentanaRegistro extends JPanel {
 
 			}
 		});
+		
+		txtFieldPasswordConfirmation = new JPasswordField();
+		GridBagConstraints gbc_txtFieldPasswordConfirmation = new GridBagConstraints();
+		gbc_txtFieldPasswordConfirmation.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFieldPasswordConfirmation.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtFieldPasswordConfirmation.gridx = 2;
+		gbc_txtFieldPasswordConfirmation.gridy = 8;
+		add(txtFieldPasswordConfirmation, gbc_txtFieldPasswordConfirmation);
 		GridBagConstraints gbc_btnRegistrar = new GridBagConstraints();
 		gbc_btnRegistrar.insets = new Insets(20, 0, 5, 5);
 		gbc_btnRegistrar.gridx = 1;
@@ -209,7 +208,7 @@ public class VentanaRegistro extends JPanel {
 		GridBagConstraints gbc_lblCamposObligatorios = new GridBagConstraints();
 		gbc_lblCamposObligatorios.insets = new Insets(20, 0, 5, 5);
 		gbc_lblCamposObligatorios.gridx = 1;
-		gbc_lblCamposObligatorios.gridy = 12;
+		gbc_lblCamposObligatorios.gridy = 11;
 		add(lblCamposObligatorios, gbc_lblCamposObligatorios);
 
 	}

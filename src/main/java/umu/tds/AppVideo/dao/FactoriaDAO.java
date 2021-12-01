@@ -9,7 +9,6 @@ public abstract class FactoriaDAO {
 
 	
 	private static FactoriaDAO instance = null;
-
 	
 	public static FactoriaDAO getInstance(String type) {
 		
