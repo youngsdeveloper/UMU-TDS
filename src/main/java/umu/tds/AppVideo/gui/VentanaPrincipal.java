@@ -13,8 +13,14 @@ import javax.swing.JLabel;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
 
 import javax.swing.SwingConstants;
+
+import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.events.UsuarioLoggedListener;
+import umu.tds.AppVideo.models.Usuario;
+
 import java.awt.Component;
 import javax.swing.JButton;
 import java.awt.CardLayout;
@@ -22,7 +28,7 @@ import javax.swing.JTabbedPane;
 
 public class VentanaPrincipal {
 
-	private JFrame frame;
+	private JFrame frmAppvideo;
 
 	/**
 	 * Launch the application.
@@ -32,7 +38,7 @@ public class VentanaPrincipal {
 			public void run() {
 				try {
 					VentanaPrincipal window = new VentanaPrincipal();
-					window.frame.setVisible(true);
+					window.frmAppvideo.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,18 +56,29 @@ public class VentanaPrincipal {
 	
 	JPanel cards;
 	CardLayout cl;
+	
+	private JButton btnRegistro, btnLogin;
+	
+	private JButton btnLogout, btnPremium;
+	
+	private JButton btnExplorar, btnMisListas, btnRecientes, btnNuevaLista;
+
+
+	private JLabel txtUserName;
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100,775, 800);
-		frame.setMinimumSize(new Dimension(700,500));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmAppvideo = new JFrame();
+		frmAppvideo.setTitle("AppVideo");
+		frmAppvideo.setBounds(100, 100,775, 800);
+		frmAppvideo.setMinimumSize(new Dimension(700,500));
+		frmAppvideo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frmAppvideo.getContentPane().setLayout(new BorderLayout(0, 0));
 			
 			JPanel panel = new JPanel();
-			frame.getContentPane().add(panel, BorderLayout.NORTH);
+			frmAppvideo.getContentPane().add(panel, BorderLayout.NORTH);
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 			
 			JLabel lblAppvideologo = new JLabel("AppVideoLogo");
@@ -69,8 +86,8 @@ public class VentanaPrincipal {
 			
 			panel.add(Box.createRigidArea(new Dimension(30,40)));
 			
-			JLabel lblNewLabel = new JLabel("Hola Jose Ramón");
-			panel.add(lblNewLabel);
+			txtUserName = new JLabel("Desconectado");
+			panel.add(txtUserName);
 			
 			Component rigidArea = Box.createRigidArea(new Dimension(30, 40));
 			panel.add(rigidArea);
@@ -78,7 +95,7 @@ public class VentanaPrincipal {
 			JPanel panel_2 = new JPanel();
 			panel.add(panel_2);
 			
-			JButton btnRegistro = new JButton("Registro");
+			btnRegistro = new JButton("Registro");
 			btnRegistro.addActionListener(new ActionListener() {
 
 				@Override
@@ -88,7 +105,7 @@ public class VentanaPrincipal {
 			
 			panel_2.add(btnRegistro);
 			
-			JButton btnLogin = new JButton("Login");
+			btnLogin = new JButton("Login");
 			btnLogin.addActionListener(new ActionListener() {
 
 				@Override
@@ -102,17 +119,26 @@ public class VentanaPrincipal {
 			Component rigidArea_1 = Box.createRigidArea(new Dimension(30, 40));
 			panel.add(rigidArea_1);
 			
-			JButton btnCerrarSesin = new JButton("Logout");
-			panel.add(btnCerrarSesin);
+			btnLogout = new JButton("Logout");
+			btnLogout.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					Controlador.getInstance().logout();
+				}
+				
+			});
+			
+			panel.add(btnLogout);
 			
 			Component rigidArea_1_1 = Box.createRigidArea(new Dimension(30, 40));
 			panel.add(rigidArea_1_1);
 			
-			JButton btnNewButton_2 = new JButton("Premium");
-			panel.add(btnNewButton_2);
+			btnPremium = new JButton("Premium");
+			panel.add(btnPremium);
 			
 			JPanel panel_1 = new JPanel();
-			frame.getContentPane().add(panel_1, BorderLayout.CENTER);
+			frmAppvideo.getContentPane().add(panel_1, BorderLayout.CENTER);
 			panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 			
 			
@@ -121,17 +147,17 @@ public class VentanaPrincipal {
 			flowLayout.setAlignment(FlowLayout.LEFT);
 			panel_1.add(panel_3);
 			
-			JButton btnNewButton = new JButton("Explorar");
-			panel_3.add(btnNewButton);
+			btnExplorar = new JButton("Explorar");
+			panel_3.add(btnExplorar);
 			
-			JButton btnNewButton_1 = new JButton("Mis listas");
-			panel_3.add(btnNewButton_1);
+			btnMisListas = new JButton("Mis listas");
+			panel_3.add(btnMisListas);
 			
-			JButton btnNewButton_3 = new JButton("Recientes");
-			panel_3.add(btnNewButton_3);
+			btnRecientes = new JButton("Recientes");
+			panel_3.add(btnRecientes);
 			
-			JButton btnNewButton_4 = new JButton("Nueva lista");
-			panel_3.add(btnNewButton_4);
+			btnNuevaLista = new JButton("Nueva lista");
+			panel_3.add(btnNuevaLista);
 			
 			//Create the "cards".
 			JPanel card_login = new VentanaLogin();
@@ -144,8 +170,65 @@ public class VentanaPrincipal {
 			cards.add(card_login, VentanaLogin.TAG);
 			cards.add(card_registro, VentanaRegistro.TAG);
 				
-				
+			updateUIlogin();
+			
+			Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
+				@Override
+				public void onUsuarioLogged(Usuario u) {
+					updateUIlogin();
+				}
+
+				@Override
+				public void onUsuarioLogout(Usuario u) {
+					System.out.println("Logout");
+					updateUIlogin();					
+				}
+			});
 
 	}
+	
+	
+	/**
+	 *
+	 * Este metodo actualiza la propiedad enabled de los botones segun el estado del usuario: (autenticado o no)
+	 * 
+	 * @author Enrique Rodriguez
+	 */
+	private void updateUIlogin(){
+		
+		
+		
+		Optional<Usuario> usuarioActual = Controlador.getInstance().getUsuarioActual();
+		
+		
+		if(usuarioActual.isPresent()) {
+			txtUserName.setText("Hola, " + usuarioActual.get().getNombre());
+
+			btnRegistro.setEnabled(false);
+			btnLogin.setEnabled(false);
+			btnLogout.setEnabled(true);
+			btnPremium.setEnabled(true);
+			
+			btnExplorar.setEnabled(true);
+			btnMisListas.setEnabled(true);
+			btnRecientes.setEnabled(true);
+			btnNuevaLista.setEnabled(true);
+		}else {
+			
+			txtUserName.setText("Desconectado");
+			
+			btnRegistro.setEnabled(true);
+			btnLogin.setEnabled(true);
+			btnLogout.setEnabled(false);
+			btnPremium.setEnabled(false);
+			
+			btnExplorar.setEnabled(false);
+			btnMisListas.setEnabled(false);
+			btnRecientes.setEnabled(false);
+			btnNuevaLista.setEnabled(false);
+
+		}
+	}
+	
 
 }
