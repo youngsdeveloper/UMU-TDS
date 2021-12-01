@@ -46,11 +46,11 @@ public class Controlador {
 		return Optional.of(usuario);
 	}
 	
-	public boolean loginUsuario(String nombre, String password) {
+	public boolean loginUsuario(String username, String password) {
 		
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
 		
-		Usuario usuario = catalogoUsuario.getUsuario(nombre);
+		Usuario usuario = catalogoUsuario.getUsuario(username);
 		if (usuario != null && usuario.getPassword().equals(password)) {
 			this.usuarioActual = Optional.of(usuario);
 			return true;

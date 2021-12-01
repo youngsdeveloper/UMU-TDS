@@ -2,6 +2,8 @@ package umu.tds.AppVideo.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -30,11 +32,16 @@ public class VentanaLogin extends JPanel {
 	private JLabel lblEmail_2;
 	private JButton btnIniciarSesion;
 	private JPasswordField txtFieldPassword;
+	
+	private JPanel ctx;
 
 	/**
 	 * Create the panel.
 	 */
 	public VentanaLogin() {
+		
+		ctx = this;
+		
 		setForeground(Color.WHITE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{100, 192, 65, 100, 0};
@@ -81,9 +88,17 @@ public class VentanaLogin extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String username = txtFieldUsername.getText().toString();
-				String password = txtFieldPassword.getPassword().toString();
+				String password = String.valueOf(txtFieldPassword.getPassword());
+				
+				if(Controlador.getInstance().loginUsuario(username, password)) {
+					// TODO: Login correcto
+				}else {
+					// DONE: Login incorrecto
+					JOptionPane.showMessageDialog(ctx, "El usuario/contraseña introducido es incorrecto");
 
-				Controlador.getInstance().loginUsuario(username, password);
+				}
+
+				
 				
 			}
 		});

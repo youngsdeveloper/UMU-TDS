@@ -167,8 +167,8 @@ public class VentanaRegistro extends JPanel {
 				Date fechaNacimiento = txtFieldFechaNacimiento.getDate();
 				String email = txtFieldEmail.getText();
 				String username = txtFieldUsername.getText();
-				String password = txtFieldPassword.getPassword().toString();
-				String passwordConfirmation = txtFieldPasswordConfirmation.getPassword().toString();
+				String password = String.valueOf(txtFieldPassword.getPassword());
+				String passwordConfirmation = String.valueOf(txtFieldPasswordConfirmation.getPassword());
 				
 				if(password.equals(passwordConfirmation)) {
 					Controlador.getInstance().registrarUsuario(nombre, apellidos, fechaNacimiento, email, username, passwordConfirmation);
