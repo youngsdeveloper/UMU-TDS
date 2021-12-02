@@ -7,6 +7,7 @@ import java.util.List;
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
+import umu.tds.AppVideo.seeders.EtiquetaSeeder;
 
 public class CatalogoEtiquetas {
 	
@@ -24,6 +25,14 @@ public class CatalogoEtiquetas {
 	}
 	
 	private CatalogoEtiquetas() {
+		
+
+		// SOLO TESTING
+		// LLAMAR AL SEEDER DE ETIQUETAS PARA QUE CREE LAS ETIQUETAS (reseteadas a 0)
+		EtiquetaSeeder.getInstance().clearEtiquetas();
+		EtiquetaSeeder.getInstance().seedEtiquetas();
+		// SOLO TESTING
+		
 		etiquetas = new HashMap<Integer, Etiqueta>();
 				
 		EtiquetaDAO etiquetaDAO = FactoriaDAO.getInstance().getEtiquetaDAO();
@@ -33,9 +42,10 @@ public class CatalogoEtiquetas {
 			etiquetas.put(etiqueta.getId(), etiqueta);
 		}
 		
+		
 	}
 	
-	public LinkedList<Etiqueta> getEtiquetas() {
+	public List<Etiqueta> getEtiquetas() {
 		return new LinkedList<Etiqueta>(etiquetas.values());
 	}	
 	
@@ -45,6 +55,10 @@ public class CatalogoEtiquetas {
 	
 	public Etiqueta getEtiqueta(Integer id) {
 		return etiquetas.get(id);
+	}
+	
+	public void clearAll() {
+		etiquetas.clear();
 	}
 
 }

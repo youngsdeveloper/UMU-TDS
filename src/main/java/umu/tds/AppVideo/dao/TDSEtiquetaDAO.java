@@ -79,5 +79,13 @@ public class TDSEtiquetaDAO implements EtiquetaDAO{
 		return etiquetas;
 	}
 
+	@Override
+	public void clearAll() {
+		List<Entidad> entidades = servPersistencia.recuperarEntidades(ETIQUETA);
+		for (Entidad eEtiqueta : entidades) {
+			servPersistencia.borrarEntidad(eEtiqueta);
+		}
+	}
+
 	
 }

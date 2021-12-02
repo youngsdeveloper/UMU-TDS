@@ -10,6 +10,11 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
 import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.dao.EtiquetaDAO;
+import umu.tds.AppVideo.dao.FactoriaDAO;
+import umu.tds.AppVideo.dao.UsuarioDAO;
+import umu.tds.AppVideo.models.CatalogoEtiquetas;
+import umu.tds.AppVideo.models.Etiqueta;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
@@ -76,9 +81,20 @@ public class VentanaExplorar extends JPanel {
 		JLabel lblNewLabel = new JLabel("Etiquetas disponibles");
 		add(lblNewLabel, "cell 6 1");
 		
+		
+		CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
+		
+
+		String[] valuesEtiquetas = catalogoEtiquetas
+			.getEtiquetas()
+			.stream()
+			.map(etiqueta -> etiqueta.getNombre())
+			.toArray(String[]::new);
+		
+		
 		final JList listEtiquetasDisponibles = new JList();
 		listEtiquetasDisponibles.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Dibujos animados", "Peliculas"};
+			String[] values = valuesEtiquetas;
 			public int getSize() {
 				return values.length;
 			}
