@@ -25,6 +25,7 @@ import java.awt.Component;
 import javax.swing.JButton;
 import java.awt.CardLayout;
 import javax.swing.JTabbedPane;
+import javax.swing.ImageIcon;
 
 public class VentanaPrincipal {
 
@@ -87,7 +88,8 @@ public class VentanaPrincipal {
 			frmAppvideo.getContentPane().add(panel, BorderLayout.NORTH);
 			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 			
-			JLabel lblAppvideologo = new JLabel("AppVideoLogo");
+			JLabel lblAppvideologo = new JLabel("");
+			lblAppvideologo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/AppVideo/images/logo-100.png")));
 			panel.add(lblAppvideologo);
 			
 			panel.add(Box.createRigidArea(new Dimension(30,40)));

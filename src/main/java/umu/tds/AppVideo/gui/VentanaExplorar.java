@@ -53,23 +53,23 @@ public class VentanaExplorar extends JPanel {
 		etiquetasSeleccionadas = new HashSet<String>();
 		
 		setForeground(Color.WHITE);
-		setLayout(new MigLayout("", "[33.00px][70px][113.00][][][26.00][grow][]", "[15px][15px][][grow][][][grow][][][]"));
+		setLayout(new MigLayout("", "[4.00px][70px,grow][113.00][][][26.00][grow][]", "[15px][15px][][grow][][][grow][][][grow][][][]"));
+		
+		JPanel panel = new JPanel();
+		add(panel, "cell 1 1 4 1,grow");
 		
 		JLabel lblNewLabel_1 = new JLabel("Buscar titulo:");
-		add(lblNewLabel_1, "cell 1 1,alignx trailing,aligny center");
+		panel.add(lblNewLabel_1);
 		
 		textField = new JTextField();
-		add(textField, "cell 2 1,growx,aligny center");
+		panel.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
-		add(btnBuscar, "cell 3 1,aligny center");
+		panel.add(btnBuscar);
 		
 		JLabel lblNewLabel = new JLabel("Etiquetas disponibles");
 		add(lblNewLabel, "cell 6 1");
-		
-		JButton btnNuevaBusqueda = new JButton("Nueva busqueda");
-		add(btnNuevaBusqueda, "cell 2 2");
 		
 		final JList listEtiquetasDisponibles = new JList();
 		listEtiquetasDisponibles.setModel(new AbstractListModel() {
@@ -104,12 +104,27 @@ public class VentanaExplorar extends JPanel {
 				updateListSeleccionadas();
 			}
 		});
-		add(listEtiquetasDisponibles, "cell 6 2 1 2,grow");
+		
+		JButton btnNuevaBusqueda = new JButton("Nueva busqueda");
+		add(btnNuevaBusqueda, "cell 1 2 4 1,alignx center,aligny center");
+		add(listEtiquetasDisponibles, "cell 6 2 1 3,grow");
+		
+		JList listVideos = new JList();
+		listVideos.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Video 1", "Video 2", "Video 3", "Video 4"};
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		add(listVideos, "cell 1 3 4 7,grow");
 		
 		JLabel lblBuscarEtiquetas = new JLabel("Buscar etiquetas");
-		add(lblBuscarEtiquetas, "cell 6 4");
+		add(lblBuscarEtiquetas, "cell 6 5");
 		
-		add(listEtiquetasSeleccionadas, "cell 6 5 1 2,grow");
+		add(listEtiquetasSeleccionadas, "cell 6 6 1 4,grow");
 
 	}
 	
