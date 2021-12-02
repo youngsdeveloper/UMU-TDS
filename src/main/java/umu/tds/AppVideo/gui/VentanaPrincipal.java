@@ -154,6 +154,11 @@ public class VentanaPrincipal {
 			panel_1.add(panel_3);
 			
 			btnExplorar = new JButton("Explorar");
+			btnExplorar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					cl.show(cards, VentanaExplorar.TAG);
+				}
+			});
 			panel_3.add(btnExplorar);
 			
 			btnMisListas = new JButton("Mis listas");
@@ -168,25 +173,30 @@ public class VentanaPrincipal {
 			//Create the "cards".
 			JPanel card_login = new VentanaLogin();
 			JPanel card_registro = new VentanaRegistro();
-			
+			JPanel card_explorar = new VentanaExplorar();
+
 			//Create the panel that contains the "cards".
 			cl = new CardLayout();
 			cards = new JPanel(cl);
 			panel_1.add(cards);
 			cards.add(card_login, VentanaLogin.TAG);
 			cards.add(card_registro, VentanaRegistro.TAG);
-				
+			cards.add(card_explorar, VentanaExplorar.TAG);
+
 			updateUIlogin();
 			
 			Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
 				@Override
 				public void onUsuarioLogged(Usuario u) {
 					updateUIlogin();
+					cl.show(cards, VentanaExplorar.TAG);
 				}
 
 				@Override
 				public void onUsuarioLogout(Usuario u) {
-					updateUIlogin();					
+					updateUIlogin();	
+					cl.show(cards, VentanaLogin.TAG);
+
 				}
 			});
 
