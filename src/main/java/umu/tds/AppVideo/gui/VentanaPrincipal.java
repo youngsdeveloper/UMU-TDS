@@ -54,6 +54,12 @@ public class VentanaPrincipal {
 	}
 
 	
+
+	public void mostrarVentana() {
+		frmAppvideo.setLocationRelativeTo(null);
+		frmAppvideo.setVisible(true);
+	}
+	
 	JPanel cards;
 	CardLayout cl;
 	
@@ -180,7 +186,6 @@ public class VentanaPrincipal {
 
 				@Override
 				public void onUsuarioLogout(Usuario u) {
-					System.out.println("Logout");
 					updateUIlogin();					
 				}
 			});
