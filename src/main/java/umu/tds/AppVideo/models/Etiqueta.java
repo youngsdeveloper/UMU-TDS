@@ -23,5 +23,11 @@ public class Etiqueta {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	// toString
+	@Override
+	public String toString() {
+		return "Etiqueta [id=" + id + ", nombre=" + nombre + "]";
+	}
 	
 }

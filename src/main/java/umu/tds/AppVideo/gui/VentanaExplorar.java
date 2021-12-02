@@ -13,13 +13,17 @@ import umu.tds.AppVideo.controlador.Controlador;
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
+import umu.tds.AppVideo.dao.VideoDAO;
 import umu.tds.AppVideo.models.CatalogoEtiquetas;
+import umu.tds.AppVideo.models.CatalogoVideos;
 import umu.tds.AppVideo.models.Etiqueta;
+import umu.tds.AppVideo.models.Video;
 
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -130,7 +134,12 @@ public class VentanaExplorar extends JPanel {
 		add(btnNuevaBusqueda, "cell 1 2 4 1,alignx center,aligny center");
 		add(listEtiquetasDisponibles, "cell 6 2 1 3,grow");
 		
-		tableVideos = new JTable(new TableModelVideo());
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+		List<Video> videos = catalogoVideos.getVideos();
+		
+		System.out.println(videos);
+		
+		tableVideos = new JTable(new TableModelVideo(videos));
 		tableVideos.setRowHeight(150);
 		tableVideos.setRowSelectionAllowed(false);
 

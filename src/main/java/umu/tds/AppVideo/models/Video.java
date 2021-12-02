@@ -51,6 +51,15 @@ public class Video {
 	public String getVideoID() {
 		return videoID;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Video [id=" + id + ", titulo=" + titulo + ", etiquetas=" + etiquetas + ", videoID=" + videoID
+				+ ", numReproducciones=" + numReproducciones + "]";
+	}
+	
+	
 	
 
 }
