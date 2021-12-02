@@ -11,4 +11,16 @@ public final class TDSFactoriaDAO extends FactoriaDAO{
 		return new TDSUsuarioDAO();
 	}
 
+	@Override
+	public VideoDAO getVideoDAO() {
+		return new TDSVideoDAO();
+	}
+
+	@Override
+	public EtiquetaDAO getEtiquetaDAO() {
+		return new TDSEtiquetaDAO();
+	}
+	
+	
+
 }

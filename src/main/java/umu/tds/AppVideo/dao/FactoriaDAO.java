@@ -37,5 +37,13 @@ public abstract class FactoriaDAO {
 	
 	// Metodos factoria para obtener adaptadores
 	public abstract UsuarioDAO getUsuarioDAO();	
+	
+	// Metodos factoria para obtener adaptadores
+	public abstract VideoDAO getVideoDAO();	
+	
+	// Metodos factoria para obtener adaptadores
+	public abstract EtiquetaDAO getEtiquetaDAO();	
+
+
 
 }
