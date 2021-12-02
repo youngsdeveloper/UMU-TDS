@@ -9,13 +9,17 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
+import javax.swing.JList;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import umu.tds.AppVideo.controlador.Controlador;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
@@ -24,6 +28,8 @@ import umu.tds.AppVideo.models.Usuario;
 import java.awt.Component;
 import javax.swing.JButton;
 import java.awt.CardLayout;
+import java.awt.Color;
+
 import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 
@@ -203,6 +209,7 @@ public class VentanaPrincipal {
 			});
 
 	}
+	
 	
 	
 	/**
