@@ -111,5 +111,13 @@ public class TDSVideoDAO implements VideoDAO{
 		return videos;
 	}
 
+	@Override
+	public void clearAll() {
+		List<Entidad> entidades = servPersistencia.recuperarEntidades(VIDEO);
+		for (Entidad eEtiqueta : entidades) {
+			servPersistencia.borrarEntidad(eEtiqueta);
+		}
+	}
+
 	
 }

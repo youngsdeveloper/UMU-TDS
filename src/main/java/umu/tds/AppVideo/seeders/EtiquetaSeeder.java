@@ -1,7 +1,9 @@
 package umu.tds.AppVideo.seeders;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
@@ -32,8 +34,17 @@ public class EtiquetaSeeder {
 	 * 
 	 * */
 	public void clearEtiquetas(){
-		etiquetaDAO = FactoriaDAO.getInstance().getEtiquetaDAO();
 		etiquetaDAO.clearAll();
+	}
+	
+	public List<Etiqueta> getSomeEtiquetas() {
+		List<Etiqueta> etiquetas = etiquetaDAO.getEtiquetas();
+        Collections.shuffle(etiquetas);
+        
+        Random random = new Random();
+        int last_index = random.ints(1, etiquetas.size()-2).findFirst().getAsInt();
+        
+        return etiquetas.subList(0, last_index);
 	}
 	
 	public void seedEtiquetas(){
@@ -41,7 +52,6 @@ public class EtiquetaSeeder {
 		
 		String[] etiquetas_str = {"Humor", "Educación", "Infantil", "Series", "Peliculas", "Estrenos", "Comedia", "Drama"};
 		
-		List<Etiqueta> etiquetas = new ArrayList<Etiqueta>(etiquetas_str.length);
 		for(String etiqueta_str:etiquetas_str) {
 			Etiqueta etiqueta = new Etiqueta(etiqueta_str);
 			etiquetaDAO.create(etiqueta);
