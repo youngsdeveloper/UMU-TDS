@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
@@ -47,18 +48,23 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class VentanaExplorar extends JPanel {
 
 	
 	public final static String TAG = "VentanaExplorar";
-	private JTextField textField;
+	private JTextField txtTituloSearch;
 	
 	private Set<String> etiquetasSeleccionadas;
 
 	
 	private JList listEtiquetasSeleccionadas;
 	private JTable tableVideos;
+	
+	private JButton btnNuevaBusqueda;
+	
+	private boolean isSearching = false;
 	/**
 	 * Create the panel.
 	 */
@@ -67,23 +73,28 @@ public class VentanaExplorar extends JPanel {
 		etiquetasSeleccionadas = new HashSet<String>();
 		
 		setForeground(Color.WHITE);
-		setLayout(new MigLayout("", "[4.00px][70px,grow][113.00][][][26.00][grow][]", "[15px][15px][][grow][][][grow][][][grow][][][]"));
+		setLayout(new MigLayout("", "[70px,grow][grow]", "[15px][][grow][][grow]"));
 		
 		JPanel panel = new JPanel();
-		add(panel, "cell 1 1 4 1,grow");
+		add(panel, "cell 0 0,grow");
 		
 		JLabel lblNewLabel_1 = new JLabel("Buscar titulo:");
 		panel.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		panel.add(textField);
-		textField.setColumns(10);
+		txtTituloSearch = new JTextField();
+		panel.add(txtTituloSearch);
+		txtTituloSearch.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				search();
+			}
+		});
 		panel.add(btnBuscar);
 		
 		JLabel lblNewLabel = new JLabel("Etiquetas disponibles");
-		add(lblNewLabel, "cell 6 1");
+		add(lblNewLabel, "cell 1 0");
 		
 		
 		CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
@@ -130,30 +141,66 @@ public class VentanaExplorar extends JPanel {
 			}
 		});
 		
-		JButton btnNuevaBusqueda = new JButton("Nueva busqueda");
-		add(btnNuevaBusqueda, "cell 1 2 4 1,alignx center,aligny center");
-		add(listEtiquetasDisponibles, "cell 6 2 1 3,grow");
+		btnNuevaBusqueda = new JButton("Nueva busqueda");
+		btnNuevaBusqueda.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				search();
+			}
+		});
+		btnNuevaBusqueda.setEnabled(false);
+
+		add(btnNuevaBusqueda, "cell 0 1,alignx center,aligny center");
+		add(listEtiquetasDisponibles, "cell 1 1 1 2,grow");
 		
 		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
 		List<Video> videos = catalogoVideos.getVideos();
 		
 		System.out.println(videos);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 0 2 1 3,grow");
+		
+		
 		tableVideos = new JTable(new TableModelVideo(videos));
+		scrollPane.setViewportView(tableVideos);
 		tableVideos.setRowHeight(150);
 		tableVideos.setRowSelectionAllowed(false);
-
+		
 		tableVideos.setDefaultRenderer(Object.class, new VideoTableCellRenderer());
-		add(tableVideos, "cell 1 3 4 7,grow");
 		
 		JLabel lblBuscarEtiquetas = new JLabel("Buscar etiquetas");
-		add(lblBuscarEtiquetas, "cell 6 5");
+		add(lblBuscarEtiquetas, "cell 1 3");
 		
-		add(listEtiquetasSeleccionadas, "cell 6 6 1 4,grow");
+		add(listEtiquetasSeleccionadas, "cell 1 4,grow");
 
 	}
 	
+	private void search() {
+		isSearching = true;
+		btnNuevaBusqueda.setEnabled(true);
+		updateVideos();
+	}
 	
+	private void updateVideos() {
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+
+		List<Video> videos = catalogoVideos.getVideos();
+		
+		String q = txtTituloSearch.getText();
+		
+		
+		
+		List<Video> videosFiltered = videos
+					.stream()
+					.filter(video -> video.getTitulo().contains(q))
+					.filter(video -> video.getEtiquetas()
+											.stream()
+											.anyMatch(etiqueta -> etiquetasSeleccionadas.contains(etiqueta.getNombre())) || etiquetasSeleccionadas.size()==0)
+					.collect(Collectors.toList());
+		
+		tableVideos.setModel(new TableModelVideo(videosFiltered));
+	}
 
 	/**
 	 * 
