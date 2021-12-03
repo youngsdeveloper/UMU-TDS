@@ -48,6 +48,10 @@ public class Video {
 		return "https://www.youtube.com/watch?v=" + videoID;
 	}
 	
+	public String getThumbnailURL() {
+		return "https://i3.ytimg.com/vi/" + getVideoID() + "/hqdefault.jpg";
+	}
+	
 	public String getVideoID() {
 		return videoID;
 	}

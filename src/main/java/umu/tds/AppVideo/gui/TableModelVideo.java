@@ -16,7 +16,7 @@ public class TableModelVideo extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		return 5;
+		return 4;
 	}
 
 	@Override
@@ -35,10 +35,10 @@ public class TableModelVideo extends AbstractTableModel {
 		
 		if(index_video<videos.size()) {
 			Video video = videos.get(index_video);
-			return video.getTitulo();
+			return video;
 		}
 		
-		return "";
+		return null;
 		
 	}
 
