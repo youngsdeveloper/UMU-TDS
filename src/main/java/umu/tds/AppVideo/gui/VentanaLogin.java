@@ -91,10 +91,10 @@ public class VentanaLogin extends JPanel {
 				String password = String.valueOf(txtFieldPassword.getPassword());
 				
 				if(Controlador.getInstance().loginUsuario(username, password)) {
-					// TODO: Login correcto
+					// DONE: Login correcto
 				}else {
 					// DONE: Login incorrecto
-					JOptionPane.showMessageDialog(ctx, "El usuario/contraseña introducido es incorrecto");
+					JOptionPane.showMessageDialog(ctx, "El usuario/contraseña introducido es incorrecto", "Ups...", JOptionPane.ERROR_MESSAGE);
 
 				}
 

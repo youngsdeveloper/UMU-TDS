@@ -2,6 +2,8 @@ package umu.tds.AppVideo.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -37,6 +39,9 @@ public class VentanaRegistro extends JPanel {
 	private JLabel lblCamposObligatorios;
 	private JPasswordField txtFieldPassword;
 	private JPasswordField txtFieldPasswordConfirmation;
+
+	
+	private JPanel ctx;
 
 	/**
 	 * Create the panel.
@@ -172,11 +177,12 @@ public class VentanaRegistro extends JPanel {
 				
 				if(password.equals(passwordConfirmation)) {
 					Controlador.getInstance().registrarUsuario(nombre, apellidos, fechaNacimiento, email, username, passwordConfirmation);
-					
-					//TODO: Usuario Registrado
+					JOptionPane.showMessageDialog(ctx, "El usuario ha sido registrado correctamente", "Exito.", JOptionPane.INFORMATION_MESSAGE);
+
+					//DONE: Usuario Registrado
 				}else {
-					//TODO: Confirmacion de contraseña incorrecta
-					System.out.println("Confirmación contraseña incorrecta");
+					//DONE: Confirmacion de contraseña incorrecta
+					JOptionPane.showMessageDialog(ctx, "La confirmación de la contraseá es incorrecta", "Ups...", JOptionPane.ERROR_MESSAGE);
 
 				}
 				
