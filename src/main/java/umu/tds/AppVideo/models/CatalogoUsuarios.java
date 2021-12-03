@@ -3,6 +3,7 @@ package umu.tds.AppVideo.models;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
@@ -43,8 +44,8 @@ public class CatalogoUsuarios {
 		usuarios.put(usuario.getUsername(), usuario);
 	}
 	
-	public Usuario getUsuario(String username) {
-		return usuarios.get(username);
+	public Optional<Usuario> getUsuario(String username) {
+		return Optional.ofNullable(usuarios.get(username));
 	}
 	
 

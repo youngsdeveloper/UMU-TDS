@@ -40,6 +40,16 @@ public class Controlador {
 	
 	public Optional<Usuario> registrarUsuario(String nombre, String apellidos,Date fechaNacimiento, String email, String username, String password) {
 
+		
+		// Comprobamos que el usuario no existe
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+
+		if(catalogoUsuario.getUsuario(username).isPresent()) {
+			// El usuario ya existe, no crear.
+			return Optional.empty();
+		}
+		
+		
 		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
 		
 		// DONE: Guardar Usuario en UsuarioDAO
@@ -47,7 +57,6 @@ public class Controlador {
 		usuarioDAO.create(usuario);
 		
 		// DONE: Guardar Usuario en CatalogoUsuarios
-		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
 		catalogoUsuario.addUsuario(usuario);
 		
 		
@@ -74,12 +83,14 @@ public class Controlador {
 		
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
 		
-		Usuario usuario = catalogoUsuario.getUsuario(username);
-		if (usuario != null && usuario.getPassword().equals(password)) {
-			this.usuarioActual = Optional.of(usuario);
-			fireUsuarioLoggedEvent(usuario);
+		Optional<Usuario> usuario = catalogoUsuario.getUsuario(username);
+				
+		if(usuario.isPresent() && usuario.get().getPassword().equals(password)) {
+			this.usuarioActual = usuario;
+			fireUsuarioLoggedEvent(usuario.get());
 			return true;
 		}
+		
 		return false;
 	}
 	
