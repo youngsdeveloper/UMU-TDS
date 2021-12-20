@@ -73,6 +73,8 @@ public class TDSVideoDAO implements VideoDAO{
 		while (strTok.hasMoreTokens()) {
 			
 			// TODO: Obtener etiqueta. ¿Esta bien hacerlo asi?
+			// TODO: Revisar CatalogoEtiquetas. Usar en vez de un catalogo un Pool de Objetos.
+			
 			CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
 			etiquetas.add(catalogoEtiquetas.getEtiqueta(Integer.valueOf((String)strTok.nextToken())));
 		}

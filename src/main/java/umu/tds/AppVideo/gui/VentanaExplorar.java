@@ -144,8 +144,7 @@ public class VentanaExplorar extends JPanel {
 		btnNuevaBusqueda = new JButton("Nueva busqueda");
 		btnNuevaBusqueda.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				search();
+				nuevaBusqueda();
 			}
 		});
 		btnNuevaBusqueda.setEnabled(false);
@@ -163,6 +162,7 @@ public class VentanaExplorar extends JPanel {
 		
 		
 		tableVideos = new JTable(new TableModelVideo(videos));
+		tableVideos.setTableHeader(null);
 		scrollPane.setViewportView(tableVideos);
 		tableVideos.setRowHeight(150);
 		tableVideos.setRowSelectionAllowed(false);
@@ -176,10 +176,22 @@ public class VentanaExplorar extends JPanel {
 
 	}
 	
+	private void nuevaBusqueda(){
+		txtTituloSearch.setText(""); // Limpiamos el campo de texto de busqueda
+		resetEtiquetasSeleccionadas();
+		search();
+	}
+	
 	private void search() {
 		isSearching = true;
 		btnNuevaBusqueda.setEnabled(true);
 		updateVideos();
+	}
+	
+	private void resetEtiquetasSeleccionadas(){
+		etiquetasSeleccionadas.clear();
+		updateListSeleccionadas();
+		
 	}
 	
 	private void updateVideos() {
