@@ -1,15 +1,21 @@
 package umu.tds.AppVideo.controlador;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
+import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.CatalogoUsuarios;
+import umu.tds.AppVideo.models.CatalogoVideos;
+import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.Usuario;
+import umu.tds.AppVideo.models.Video;
 
 public class Controlador {
 
@@ -106,6 +112,32 @@ public class Controlador {
 		fireUsuarioLoggedOutEvent(usuario_copia);
 
 		return true;
+	}
+	
+	
+	// Explorador
+	
+	public List<Etiqueta> getEtiquetas(){
+		CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
+		return catalogoEtiquetas.getEtiquetas();
+	}
+	
+	public List<Video> searchVideos(String q, Collection<String> etiquetasSeleccionadas){
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+
+		List<Video> videos = catalogoVideos.getVideos();
+				
+		
+		
+		List<Video> videosFiltered = videos
+					.stream()
+					.filter(video -> video.getTitulo().toLowerCase().contains(q.toLowerCase())) //Fix: Case insesitive search
+					.filter(video -> video.getEtiquetas()
+											.stream()
+											.anyMatch(etiqueta -> etiquetasSeleccionadas.contains(etiqueta.getNombre())) || etiquetasSeleccionadas.size()==0)
+					.collect(Collectors.toList());
+		
+		return videosFiltered;
 	}
 	
 	

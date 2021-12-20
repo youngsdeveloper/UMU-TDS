@@ -97,14 +97,14 @@ public class VentanaExplorar extends JPanel {
 		add(lblNewLabel, "cell 1 0");
 		
 		
-		CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
-		
+	
 
-		String[] valuesEtiquetas = catalogoEtiquetas
-			.getEtiquetas()
-			.stream()
-			.map(etiqueta -> etiqueta.getNombre())
-			.toArray(String[]::new);
+		String[] valuesEtiquetas = Controlador
+				.getInstance()
+				.getEtiquetas()
+				.stream()
+				.map(etiqueta -> etiqueta.getNombre())
+				.toArray(String[]::new);
 		
 		
 		final JList listEtiquetasDisponibles = new JList();
@@ -194,24 +194,9 @@ public class VentanaExplorar extends JPanel {
 		
 	}
 	
-	private void updateVideos() {
-		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
-
-		List<Video> videos = catalogoVideos.getVideos();
-		
-		String q = txtTituloSearch.getText();
-		
-		
-		
-		List<Video> videosFiltered = videos
-					.stream()
-					.filter(video -> video.getTitulo().contains(q))
-					.filter(video -> video.getEtiquetas()
-											.stream()
-											.anyMatch(etiqueta -> etiquetasSeleccionadas.contains(etiqueta.getNombre())) || etiquetasSeleccionadas.size()==0)
-					.collect(Collectors.toList());
-		
-		tableVideos.setModel(new TableModelVideo(videosFiltered));
+	private void updateVideos(){
+		List<Video> searchResult = Controlador.getInstance().searchVideos(txtTituloSearch.getText(), etiquetasSeleccionadas);
+		tableVideos.setModel(new TableModelVideo(searchResult));
 	}
 
 	/**
