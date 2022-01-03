@@ -48,6 +48,10 @@ public class CatalogoUsuarios {
 		return Optional.ofNullable(usuarios.get(username));
 	}
 	
+	public void updateUsuario(Usuario usuario) {
+		usuarios.put(usuario.getUsername(), usuario);
+	}
+	
 
 	
 }

@@ -6,14 +6,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import umu.tds.AppVideo.dao.FactoriaDAO;
+import umu.tds.AppVideo.dao.ListaVideosDAO;
+import umu.tds.AppVideo.dao.TDSListaVideosDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.CatalogoUsuarios;
 import umu.tds.AppVideo.models.CatalogoVideos;
 import umu.tds.AppVideo.models.Etiqueta;
+import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
 
@@ -92,6 +96,7 @@ public class Controlador {
 		Optional<Usuario> usuario = catalogoUsuario.getUsuario(username);
 				
 		if(usuario.isPresent() && usuario.get().getPassword().equals(password)) {
+			System.out.println(usuario);
 			this.usuarioActual = usuario;
 			fireUsuarioLoggedEvent(usuario.get());
 			return true;
@@ -122,22 +127,79 @@ public class Controlador {
 		return catalogoEtiquetas.getEtiquetas();
 	}
 	
-	public List<Video> searchVideos(String q, Collection<String> etiquetasSeleccionadas){
+	
+
+	public List<Video> getVideos(){
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+
+		List<Video> videos = catalogoVideos.getVideos();
+		
+		return videos;
+	}
+	
+	public List<Video> searchVideos(String q, Optional<Collection<String>> etiquetasSeleccionadas){
 		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
 
 		List<Video> videos = catalogoVideos.getVideos();
 				
 		
 		
-		List<Video> videosFiltered = videos
+		Stream<Video> stream = videos
 					.stream()
-					.filter(video -> video.getTitulo().toLowerCase().contains(q.toLowerCase())) //Fix: Case insesitive search
-					.filter(video -> video.getEtiquetas()
-											.stream()
-											.anyMatch(etiqueta -> etiquetasSeleccionadas.contains(etiqueta.getNombre())) || etiquetasSeleccionadas.size()==0)
-					.collect(Collectors.toList());
+					.filter(video -> video.getTitulo().toLowerCase().contains(q.toLowerCase()));//Fix: Case insesitive search;
 		
-		return videosFiltered;
+		
+				
+		
+		if(etiquetasSeleccionadas.isPresent()) {
+			
+			Collection<String> etiquetas = etiquetasSeleccionadas.get();
+			
+			stream = stream.filter(video -> video.getEtiquetas()
+						.stream()
+						.anyMatch(etiqueta -> etiquetas.contains(etiqueta.getNombre()) || etiquetas.size()==0));
+
+		}
+
+		
+		return stream.collect(Collectors.toList());
+	}
+	
+	public Optional<ListaVideos> getLista(String nombre){
+		return usuarioActual
+				.get()
+				.getListasVideos()
+				.stream()
+				.filter(lista -> lista.getNombre().equals(nombre))
+				.findFirst();
+	}
+	
+	public ListaVideos registrarLista(String nombre){
+		
+		if(usuarioActual.isEmpty()){
+			return null; 
+		}
+		
+		ListaVideos lista = new ListaVideos(nombre);
+
+		// Insertamos la lista en el DAO
+		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
+		lista = listaDAO.create(lista);
+		
+		usuarioActual.get().addListaToListaVideos(lista);
+		
+		// Actualizamos el usuario actual en el catalogo
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+		
+		// Actualizamos el usuario actual en el DAO
+		System.out.println("Codigo: " + lista.getId());
+
+
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+
+		return lista;
 	}
 	
 	

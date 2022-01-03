@@ -10,6 +10,7 @@ import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import umu.tds.AppVideo.models.Etiqueta;
+import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 
 public class TDSEtiquetaDAO implements EtiquetaDAO{
@@ -86,6 +87,7 @@ public class TDSEtiquetaDAO implements EtiquetaDAO{
 			servPersistencia.borrarEntidad(eEtiqueta);
 		}
 	}
+
 
 	
 }

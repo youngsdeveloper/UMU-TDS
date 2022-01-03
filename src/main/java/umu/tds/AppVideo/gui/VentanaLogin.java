@@ -159,7 +159,9 @@ public class VentanaLogin extends JPanel {
 			}
 		});
 		
+
 		checkButtonLoginEnabled();
+		autoLoginTest();
 
 	}
 	
@@ -186,5 +188,30 @@ public class VentanaLogin extends JPanel {
 
 		}
 	 }
+	
+	
+	/**
+	 *
+	 * Metodo para agilizar el login. Solo usar con motivo de TESTING.
+	 * 
+	 */
+	private void autoLoginTest() {
+
+		java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+            	if(Controlador.getInstance().loginUsuario("test", "testtest")) {
+        			// DONE: Login correcto
+
+        		}else {
+        			// DONE: Login incorrecto
+        			JOptionPane.showMessageDialog(ctx, "El usuario/contraseña introducido es incorrecto", "Ups...", JOptionPane.ERROR_MESSAGE);
+
+        		}
+            }
+        });
+
+		
+	}
 
 }

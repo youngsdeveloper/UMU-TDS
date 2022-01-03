@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import umu.tds.AppVideo.models.CatalogoEtiquetas;
+import umu.tds.AppVideo.models.Etiqueta;
+import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 
 public class TDSUsuarioDAO implements UsuarioDAO{
@@ -24,7 +28,8 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 	private static final String EMAIL = "email";
 	private static final String USERNAME = "username";
 	private static final String PASSWORD = "password";
-	
+	private static final String LISTAS_VIDEOS = "listasVideos";
+
 	// Constructor
 	private ServicioPersistencia servPersistencia;
 
@@ -41,6 +46,17 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 	
 	// Metodos auxiliares
 	
+	private String obtenerCodigosListas(List<ListaVideos> listasVideos){
+		if(listasVideos.isEmpty()) {
+			return "";
+		}
+		String lineas = "";
+		for (ListaVideos listaVideos: listasVideos) {
+		lineas += listaVideos.getId() + " ";
+		}
+		return lineas.substring(0, lineas.length()-1);
+	}
+	
 	private Entidad usuarioToEntidad(Usuario usuario) {
 		Entidad eUsuario = new Entidad();
 		eUsuario.setNombre(USUARIO);
@@ -53,12 +69,35 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		propiedades.add(new Propiedad(EMAIL, usuario.getEmail().toString()));
 		propiedades.add(new Propiedad(USERNAME, usuario.getUsername().toString()));
 		propiedades.add(new Propiedad(PASSWORD, usuario.getPassword().toString()));
+		propiedades.add(new Propiedad(LISTAS_VIDEOS, obtenerCodigosListas(usuario.getListasVideos())));
 
 		eUsuario.setPropiedades(propiedades);
 		
 		return eUsuario;
 	}
 	
+	private List<ListaVideos> obtenerListasVideosCodigos(String listas_videos_str){
+		
+		System.out.println("Todas Listas: " + FactoriaDAO.getInstance().getListasDAO().getListaVideos());
+
+		
+		List<ListaVideos> listasVideos = new LinkedList<ListaVideos>();
+		if(listas_videos_str!=null && !listas_videos_str.isEmpty()) {
+			StringTokenizer strTok = new StringTokenizer(listas_videos_str, " ");
+			while (strTok.hasMoreTokens()) {
+				
+				
+				
+				int id = Integer.valueOf((String)strTok.nextToken());
+				System.out.println("ID: " + id);
+				ListaVideos lista = FactoriaDAO.getInstance().getListasDAO().get(id);
+				if(lista!=null)
+					listasVideos.add(lista);
+			}
+		}
+		
+		return listasVideos;
+	}
 	private Usuario entidadToUsuario(Entidad eUsuario) {
 
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, NOMBRE);
@@ -66,9 +105,13 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		Date fechaNacimiento = new Date();
 		String email = servPersistencia.recuperarPropiedadEntidad(eUsuario, EMAIL);
 		String username = servPersistencia.recuperarPropiedadEntidad(eUsuario, USERNAME);
-		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);
+		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);	
 
+		List<ListaVideos> listasVideos = obtenerListasVideosCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, LISTAS_VIDEOS));
+
+				
 		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
+		usuario.setListasVideos(listasVideos);
 		usuario.setId(eUsuario.getId());
 
 		return usuario;
@@ -90,6 +133,36 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		}
 
 		return usuarios;
+	}
+
+	@Override
+	public void update(Usuario usuario) {
+		Entidad eUsuario = servPersistencia.recuperarEntidad(usuario.getId());
+		
+		for(Propiedad prop:eUsuario.getPropiedades()){
+
+			if(prop.getNombre().equals(NOMBRE)){
+				prop.setValor(usuario.getNombre());
+			}else if(prop.getNombre().equals(APELLIDOS)) {
+				prop.setValor(usuario.getApellidos());
+			}else if(prop.getNombre().equals(FECHA_NACIMIENTO)) {
+				prop.setValor(usuario.getFechaNacimiento().toString());
+			}else if(prop.getNombre().equals(EMAIL)) {
+				prop.setValor(usuario.getEmail());
+			}else if(prop.getNombre().equals(USERNAME)) {
+				prop.setValor(usuario.getUsername());
+			}else if(prop.getNombre().equals(PASSWORD)) {
+				prop.setValor(usuario.getPassword());
+			}else if(prop.getNombre().equals(LISTAS_VIDEOS)) {
+				prop.setValor(obtenerCodigosListas(usuario.getListasVideos()));
+			}
+			
+
+			
+			servPersistencia.modificarPropiedad(prop);
+			
+		}
+
 	}
 
 	

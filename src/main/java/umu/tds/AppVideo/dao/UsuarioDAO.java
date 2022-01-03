@@ -7,5 +7,6 @@ import umu.tds.AppVideo.models.Usuario;
 public interface UsuarioDAO {
 	void create(Usuario usuario);
 	List<Usuario> getUsuarios();
+	void update(Usuario usuario);
 
 }

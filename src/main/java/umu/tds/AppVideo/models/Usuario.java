@@ -1,6 +1,8 @@
 package umu.tds.AppVideo.models;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Usuario {
 
@@ -12,7 +14,7 @@ public class Usuario {
 	private String email;
 	private String username;
 	private String password;
-	
+	private List<ListaVideos> listasVideos;
 	
 	//Constructor
 	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password) {
@@ -23,6 +25,7 @@ public class Usuario {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.listasVideos = new LinkedList<ListaVideos>();
 	}
 	
 	// Getters & Setteres
@@ -82,6 +85,26 @@ public class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public List<ListaVideos> getListasVideos() {
+		return listasVideos;
+	}
+	
+	public void setListasVideos(List<ListaVideos> listasVideos) {
+		this.listasVideos = listasVideos;
+	}
+	
+	public void addListaToListaVideos(ListaVideos lista) {
+		this.listasVideos.add(lista);
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
+				+ fechaNacimiento + ", email=" + email + ", username=" + username + ", password=" + password
+				+ ", listasVideos=" + listasVideos + "]";
+	}
+	
 	
 	
 	

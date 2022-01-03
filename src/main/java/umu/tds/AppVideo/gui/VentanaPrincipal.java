@@ -176,12 +176,16 @@ public class VentanaPrincipal {
 			panel_3.add(btnRecientes);
 			
 			btnNuevaLista = new JButton("Nueva lista");
+			btnNuevaLista.addActionListener((ev) -> {
+				cl.show(cards, VentanaNuevaLista.TAG);
+			});
 			panel_3.add(btnNuevaLista);
 			
 			//Create the "cards".
 			JPanel card_login = new VentanaLogin();
 			JPanel card_registro = new VentanaRegistro();
 			JPanel card_explorar = new VentanaExplorar();
+			JPanel card_nueva_lista = new VentanaNuevaLista();
 
 			//Create the panel that contains the "cards".
 			cl = new CardLayout();
@@ -190,6 +194,7 @@ public class VentanaPrincipal {
 			cards.add(card_login, VentanaLogin.TAG);
 			cards.add(card_registro, VentanaRegistro.TAG);
 			cards.add(card_explorar, VentanaExplorar.TAG);
+			cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
 
 			updateUIlogin();
 			

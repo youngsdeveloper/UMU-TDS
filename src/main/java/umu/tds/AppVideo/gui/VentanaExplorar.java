@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -152,11 +153,8 @@ public class VentanaExplorar extends JPanel {
 		add(btnNuevaBusqueda, "cell 0 1,alignx center,aligny center");
 		add(listEtiquetasDisponibles, "cell 1 1 1 2,grow");
 		
-		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
-		List<Video> videos = catalogoVideos.getVideos();
-		
-		System.out.println(videos);
-		
+		List<Video> videos = Controlador.getInstance().getVideos();
+				
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "cell 0 2 1 3,grow");
 		
@@ -195,7 +193,7 @@ public class VentanaExplorar extends JPanel {
 	}
 	
 	private void updateVideos(){
-		List<Video> searchResult = Controlador.getInstance().searchVideos(txtTituloSearch.getText(), etiquetasSeleccionadas);
+		List<Video> searchResult = Controlador.getInstance().searchVideos(txtTituloSearch.getText(), Optional.of(etiquetasSeleccionadas));
 		tableVideos.setModel(new TableModelVideo(searchResult));
 	}
 

@@ -20,7 +20,10 @@ public final class TDSFactoriaDAO extends FactoriaDAO{
 	public EtiquetaDAO getEtiquetaDAO() {
 		return new TDSEtiquetaDAO();
 	}
-	
-	
+
+	@Override
+	public ListaVideosDAO getListasDAO() {
+		return new TDSListaVideosDAO();
+	}
 
 }
