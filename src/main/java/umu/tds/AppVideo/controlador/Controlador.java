@@ -1,5 +1,6 @@
 package umu.tds.AppVideo.controlador;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
@@ -96,7 +97,6 @@ public class Controlador {
 		Optional<Usuario> usuario = catalogoUsuario.getUsuario(username);
 				
 		if(usuario.isPresent() && usuario.get().getPassword().equals(password)) {
-			System.out.println(usuario);
 			this.usuarioActual = usuario;
 			fireUsuarioLoggedEvent(usuario.get());
 			return true;
@@ -165,10 +165,19 @@ public class Controlador {
 		return stream.collect(Collectors.toList());
 	}
 	
-	public Optional<ListaVideos> getLista(String nombre){
+	public List<ListaVideos> getListasUsuario(){
+		
+		if(usuarioActual.isEmpty()) {
+			return new ArrayList<ListaVideos>();
+		}
 		return usuarioActual
 				.get()
-				.getListasVideos()
+				.getListasVideos();
+	}
+	
+	public Optional<ListaVideos> getLista(String nombre){
+		return 
+				getListasUsuario()
 				.stream()
 				.filter(lista -> lista.getNombre().equals(nombre))
 				.findFirst();
@@ -193,7 +202,32 @@ public class Controlador {
 		catalogoUsuario.updateUsuario(usuarioActual.get());
 		
 		// Actualizamos el usuario actual en el DAO
-		System.out.println("Codigo: " + lista.getId());
+
+
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+
+		return lista;
+	}
+	
+public ListaVideos updateLista(ListaVideos lista){
+		
+		if(usuarioActual.isEmpty()){
+			return null; 
+		}
+		
+		// Insertamos la lista en el DAO
+		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
+		listaDAO.update(lista);
+		
+		int index = usuarioActual.get().getListasVideos().indexOf(lista);
+		usuarioActual.get().getListasVideos().set(index, lista);
+		
+		// Actualizamos el usuario actual en el catalogo
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+		
+		// Actualizamos el usuario actual en el DAO
 
 
 		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();

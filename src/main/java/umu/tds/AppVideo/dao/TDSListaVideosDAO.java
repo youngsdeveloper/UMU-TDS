@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import beans.Entidad;
 import beans.Propiedad;
@@ -12,6 +13,7 @@ import tds.driver.ServicioPersistencia;
 import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
+import umu.tds.AppVideo.models.Video;
 
 public class TDSListaVideosDAO implements ListaVideosDAO{
 
@@ -24,7 +26,7 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 
 	private static final String NOMBRE = "nombre";
 	private static final String USUARIO = "usuario";
-	private static final String VIDEOS = "vidoes";
+	private static final String VIDEOS = "videos";
 
 	// Constructor
 	private ServicioPersistencia servPersistencia;
@@ -43,6 +45,17 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 	
 	// Metodos auxiliares
 	
+	
+	private String obtenerCodigoVideos(List<Video> videos){
+		if(videos.isEmpty()) {
+			return "";
+		}
+		String lineas = "";
+		for (Video video: videos) {
+		lineas += video.getId() + " ";
+		}
+		return lineas.substring(0, lineas.length()-1);
+	}
 	private Entidad listaVideosToEntidad(ListaVideos listaVideos) {
 		Entidad eListaVideos = new Entidad();
 		eListaVideos.setNombre(LISTA_VIDEOS);
@@ -50,10 +63,29 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 		List<Propiedad> propiedades = new ArrayList<Propiedad>(1);
 		
 		propiedades.add(new Propiedad(NOMBRE, listaVideos.getNombre()));
+		propiedades.add(new Propiedad(VIDEOS, obtenerCodigoVideos(listaVideos.getVideos())));
 
 		eListaVideos.setPropiedades(propiedades);
 		
 		return eListaVideos;
+	}
+	
+
+	private List<Video> obtenerVideosCodigos(String videos_str){
+		List<Video> videos = new LinkedList<Video>();
+		if(videos_str!=null && !videos_str.isEmpty()) {
+			StringTokenizer strTok = new StringTokenizer(videos_str, " ");
+			while (strTok.hasMoreTokens()) {
+				
+				
+				
+				int id = Integer.valueOf((String)strTok.nextToken());
+				Video video = FactoriaDAO.getInstance().getVideoDAO().getVideo(id);
+				videos.add(video);
+			}
+		}
+		
+		return videos;
 	}
 	
 	private ListaVideos entidadToListaVideos(Entidad eListaVideos) {
@@ -63,11 +95,15 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 
 		String nombre = servPersistencia.recuperarPropiedadEntidad(eListaVideos, NOMBRE);
 
+
+		List<Video> videos = obtenerVideosCodigos(servPersistencia.recuperarPropiedadEntidad(eListaVideos, VIDEOS));
 		ListaVideos listaVideos = new ListaVideos(nombre);
 		listaVideos.setId(eListaVideos.getId());
+		listaVideos.setVideos(videos);
 
 		return listaVideos;
 	}
+	
 
 	
 	@Override
@@ -87,6 +123,26 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 		}
 
 		return listasVideos;
+	}
+
+	@Override
+	public void update(ListaVideos listaVideos) {
+		
+
+		Entidad eUsuario = servPersistencia.recuperarEntidad(listaVideos.getId());
+		
+		for(Propiedad prop:eUsuario.getPropiedades()){
+
+			if(prop.getNombre().equals(NOMBRE)){
+				prop.setValor(listaVideos.getNombre());
+			}else if(prop.getNombre().equals(VIDEOS)) {
+				prop.setValor(obtenerCodigoVideos(listaVideos.getVideos()));
+			}
+
+			
+			servPersistencia.modificarPropiedad(prop);
+			
+		}
 	}
 	
 

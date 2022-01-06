@@ -9,27 +9,35 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import umu.tds.AppVideo.models.Video;
 
-public class VideoTableCellRenderer extends DefaultTableCellRenderer{
-	public VideoTableCellRenderer() {
+public class VideoListCellRenderer extends DefaultListCellRenderer{
+	public VideoListCellRenderer() {
 	}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
-    {
-        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	
 
-        JLabel label = ((JLabel)cellComponent);
+	@Override
+	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+			boolean cellHasFocus) {
+
+		
+		
+		Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+        JLabel label = (JLabel)c;
 
         ImageIcon thumbnail = null;
 
@@ -37,7 +45,12 @@ public class VideoTableCellRenderer extends DefaultTableCellRenderer{
         	
         	Video video = (Video)value;
         	
-        	label.setText(video.getTitulo());
+        	int MAX_CHAR = 40;
+        	String titulo = video.getTitulo();
+        	if(titulo.length()>MAX_CHAR) {
+        		titulo = titulo.substring(0,MAX_CHAR-3).concat("...");
+        	}
+        	label.setText(titulo);
         	
             try {
                 URL url = new URL(video.getThumbnailURL());
@@ -64,9 +77,7 @@ public class VideoTableCellRenderer extends DefaultTableCellRenderer{
 		label.setIcon(thumbnail);
 		label.setFont(new Font("Sans-Serif", Font.PLAIN, 10));
 		label.setAlignmentX(CENTER_ALIGNMENT);
-
-
-        
+		label.setAlignmentY(CENTER_ALIGNMENT);        
         
 
         label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -74,9 +85,8 @@ public class VideoTableCellRenderer extends DefaultTableCellRenderer{
         
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
-
-
-        return label;
-    }
+        
+		return label;
+	}
 	
 }

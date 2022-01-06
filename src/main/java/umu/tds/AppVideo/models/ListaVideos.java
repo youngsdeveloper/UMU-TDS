@@ -1,5 +1,6 @@
 package umu.tds.AppVideo.models;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ListaVideos {
@@ -15,6 +16,7 @@ public class ListaVideos {
 		super();
 		this.id = 0;
 		this.nombre = nombre;
+		this.videos = new LinkedList<Video>();
 	}
 	
 	// Getters & Setters
@@ -52,6 +54,34 @@ public class ListaVideos {
 	@Override
 	public String toString() {
 		return "ListaVideos [id=" + id + ", nombre=" + nombre + ", usuario=" + usuario + ", videos=" + videos + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ListaVideos other = (ListaVideos) obj;
+		if (id != other.id)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
 	}
 	
 	

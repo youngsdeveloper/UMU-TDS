@@ -68,7 +68,11 @@ public class TDSVideoDAO implements VideoDAO{
 	}
 	
 	private List<Etiqueta> obtenerEtiquetasCodigos(String etiquetas_str){
+		
 		List<Etiqueta> etiquetas = new LinkedList<Etiqueta>();
+		if(etiquetas_str==null) {
+			return etiquetas;
+		}
 		StringTokenizer strTok = new StringTokenizer(etiquetas_str, " ");
 		while (strTok.hasMoreTokens()) {
 			
@@ -83,12 +87,22 @@ public class TDSVideoDAO implements VideoDAO{
 	
 	private Video entidadToVideo(Entidad eVideo) {
 
+		if(eVideo==null) {
+			return null;
+		}
+		
 		String titulo = servPersistencia.recuperarPropiedadEntidad(eVideo, TITULO);
 		String videoID = servPersistencia.recuperarPropiedadEntidad(eVideo, VIDEO_ID);
 		String numReproducciones = servPersistencia.recuperarPropiedadEntidad(eVideo, NUM_REPRODUCCIONES);
 		String etiquetas = servPersistencia.recuperarPropiedadEntidad(eVideo, ETIQUETAS);
+		
+		int nReproducciones = 0;
+		if(numReproducciones!=null){
+			nReproducciones = Integer.parseInt(numReproducciones);
+		}
 
-		Video video = new Video(titulo,  obtenerEtiquetasCodigos(etiquetas), videoID, Integer.parseInt(numReproducciones));
+		Video video = new Video(titulo,  obtenerEtiquetasCodigos(etiquetas), videoID, nReproducciones);
+		
 		
 		video.setId(eVideo.getId());
 
@@ -119,6 +133,11 @@ public class TDSVideoDAO implements VideoDAO{
 		for (Entidad eEtiqueta : entidades) {
 			servPersistencia.borrarEntidad(eEtiqueta);
 		}
+	}
+
+	@Override
+	public Video getVideo(int id){
+		return entidadToVideo(servPersistencia.recuperarEntidad(id));
 	}
 
 	

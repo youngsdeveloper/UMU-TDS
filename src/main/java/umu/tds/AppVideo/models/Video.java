@@ -62,6 +62,53 @@ public class Video {
 		return "Video [id=" + id + ", titulo=" + titulo + ", etiquetas=" + etiquetas + ", videoID=" + videoID
 				+ ", numReproducciones=" + numReproducciones + "]";
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((etiquetas == null) ? 0 : etiquetas.hashCode());
+		result = prime * result + id;
+		result = prime * result + numReproducciones;
+		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
+		result = prime * result + ((videoID == null) ? 0 : videoID.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Video other = (Video) obj;
+		if (etiquetas == null) {
+			if (other.etiquetas != null)
+				return false;
+		} else if (!etiquetas.equals(other.etiquetas))
+			return false;
+		if (id != other.id)
+			return false;
+		if (numReproducciones != other.numReproducciones)
+			return false;
+		if (titulo == null) {
+			if (other.titulo != null)
+				return false;
+		} else if (!titulo.equals(other.titulo))
+			return false;
+		if (videoID == null) {
+			if (other.videoID != null)
+				return false;
+		} else if (!videoID.equals(other.videoID))
+			return false;
+		return true;
+	}
+	
+	
 	
 	
 	

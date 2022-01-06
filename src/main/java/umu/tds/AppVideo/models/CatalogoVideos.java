@@ -31,13 +31,20 @@ public class CatalogoVideos {
 		
 		// SOLO TESTING
 		// LLAMAR AL SEEDER DE ETIQUETAS PARA QUE CREE LAS ETIQUETAS (reseteadas a 0)
-		VideoSeeder.getInstance().clearVideos();
-		VideoSeeder.getInstance().seedVideos();
-		// SOLO TESTING
 		
 		VideoDAO videoDAO = FactoriaDAO.getInstance().getVideoDAO();
-
 		List<Video> vids = videoDAO.getVideos();
+
+		if(vids.size()==0) {
+			VideoSeeder.getInstance().clearVideos();
+			VideoSeeder.getInstance().seedVideos();
+			// SOLO TESTING CREAR PRIMERA VEZ
+		}
+		
+		
+		
+
+		vids = videoDAO.getVideos();
 		for (Video video:vids) {
 			videos.put(video.getVideoID(), video);
 		}

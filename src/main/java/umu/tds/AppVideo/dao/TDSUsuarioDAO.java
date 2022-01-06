@@ -78,7 +78,6 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 	
 	private List<ListaVideos> obtenerListasVideosCodigos(String listas_videos_str){
 		
-		System.out.println("Todas Listas: " + FactoriaDAO.getInstance().getListasDAO().getListaVideos());
 
 		
 		List<ListaVideos> listasVideos = new LinkedList<ListaVideos>();
@@ -89,7 +88,6 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 				
 				
 				int id = Integer.valueOf((String)strTok.nextToken());
-				System.out.println("ID: " + id);
 				ListaVideos lista = FactoriaDAO.getInstance().getListasDAO().get(id);
 				if(lista!=null)
 					listasVideos.add(lista);

@@ -154,6 +154,7 @@ public class VentanaExplorar extends JPanel {
 		add(listEtiquetasDisponibles, "cell 1 1 1 2,grow");
 		
 		List<Video> videos = Controlador.getInstance().getVideos();
+		
 				
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "cell 0 2 1 3,grow");
@@ -164,7 +165,8 @@ public class VentanaExplorar extends JPanel {
 		scrollPane.setViewportView(tableVideos);
 		tableVideos.setRowHeight(150);
 		tableVideos.setRowSelectionAllowed(false);
-		
+		tableVideos.setCellSelectionEnabled(true);
+
 		tableVideos.setDefaultRenderer(Object.class, new VideoTableCellRenderer());
 		
 		JLabel lblBuscarEtiquetas = new JLabel("Buscar etiquetas");
