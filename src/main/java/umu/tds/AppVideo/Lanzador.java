@@ -8,10 +8,10 @@ import umu.tds.AppVideo.gui.VentanaPrincipal;
 
 public class Lanzador {
 	public static void main(final String[] args){
-		Controlador.env = Environment.PRODUCTION;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Controlador.getInstance().env = Environment.PRODUCTION;
 					VentanaPrincipal window = new VentanaPrincipal();
 					window.mostrarVentana();
 				} catch (Exception e) {

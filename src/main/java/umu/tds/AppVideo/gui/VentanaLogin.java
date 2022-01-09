@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
@@ -196,20 +197,22 @@ public class VentanaLogin extends JPanel {
 	 * 
 	 */
 	private void autoLoginTest() {
+		EventQueue.invokeLater(new Runnable() {
 
-		java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-            	if(Controlador.getInstance().loginUsuario("test", "testtest")) {
+			@Override
+			public void run() {
+				if(Controlador.getInstance().loginUsuario("test", "testtest")) {
         			// DONE: Login correcto
+	            	System.out.println("(1) Iniciando sesion");
 
         		}else {
         			// DONE: Login incorrecto
         			JOptionPane.showMessageDialog(ctx, "El usuario/contraseña introducido es incorrecto", "Ups...", JOptionPane.ERROR_MESSAGE);
 
         		}
-            }
-        });
+				
+			}});
+
 
 		
 	}

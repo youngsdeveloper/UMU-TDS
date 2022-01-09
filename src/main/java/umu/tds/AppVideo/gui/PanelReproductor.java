@@ -88,8 +88,10 @@ public class PanelReproductor extends JPanel {
 		
 		JButton btnNewButton = new JButton("Añadir");
 		panel_3.add(btnNewButton);
+		System.out.println(Controlador.getInstance().env);
 
-		if(Controlador.env != Environment.WBUILDER) {
+
+		if(Controlador.getInstance().env != Environment.WBUILDER) {
 			configurarReproductor();
 		}
 
@@ -100,7 +102,6 @@ public class PanelReproductor extends JPanel {
 		
 		label_titulo_video.setText(video.getTitulo());
 		
-		System.out.println(video.getEtiquetas());
 		
 		modelEtiquetas.clear();
 		modelEtiquetas.addAll(video.getEtiquetas());

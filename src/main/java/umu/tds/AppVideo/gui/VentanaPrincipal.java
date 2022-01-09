@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -88,122 +89,143 @@ public class VentanaPrincipal {
 		frmAppvideo.setBounds(100, 100,775, 800);
 		frmAppvideo.setMinimumSize(new Dimension(700,500));
 		frmAppvideo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frmAppvideo.getContentPane().setLayout(new BorderLayout(0, 0));
-			
-			JPanel panel = new JPanel();
-			frmAppvideo.getContentPane().add(panel, BorderLayout.NORTH);
-			panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-			
-			JLabel lblAppvideologo = new JLabel("");
-			lblAppvideologo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/AppVideo/images/logo-100.png")));
-			panel.add(lblAppvideologo);
-			
-			panel.add(Box.createRigidArea(new Dimension(30,40)));
-			
-			txtUserName = new JLabel("Desconectado");
-			panel.add(txtUserName);
-			
-			Component rigidArea = Box.createRigidArea(new Dimension(30, 40));
-			panel.add(rigidArea);
-			
-			JPanel panel_2 = new JPanel();
-			panel.add(panel_2);
-			
-			btnRegistro = new JButton("Registro");
-			btnRegistro.addActionListener((ev) -> {
-				cl.show(cards, VentanaRegistro.TAG);
-			});
-			
-			panel_2.add(btnRegistro);
-			
-			btnLogin = new JButton("Login");
-			btnLogin.addActionListener((ev) -> {
-				cl.show(cards, VentanaLogin.TAG);
-			});
-			panel_2.add(btnLogin);
-			
-			Component rigidArea_1 = Box.createRigidArea(new Dimension(30, 40));
-			panel.add(rigidArea_1);
-			
-			btnLogout = new JButton("Logout");
-			btnLogout.addActionListener((ev) -> {
-				Controlador.getInstance().logout();
-			});
-			
-			panel.add(btnLogout);
-			
-			Component rigidArea_1_1 = Box.createRigidArea(new Dimension(30, 40));
-			panel.add(rigidArea_1_1);
-			
-			btnPremium = new JButton("Premium");
-			panel.add(btnPremium);
-			
-			JPanel panel_1 = new JPanel();
-			frmAppvideo.getContentPane().add(panel_1, BorderLayout.CENTER);
-			panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-			
-			
-			JPanel panel_3 = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
-			flowLayout.setAlignment(FlowLayout.LEFT);
-			panel_1.add(panel_3);
-			
-			btnExplorar = new JButton("Explorar");
-			btnExplorar.addActionListener((ev) -> {
-				cl.show(cards, VentanaExplorar.TAG);
-			});
-			panel_3.add(btnExplorar);
-			
-			btnMisListas = new JButton("Mis listas");
-			btnMisListas.addActionListener((ev) -> {
-				cl.show(cards, VentanaLista.TAG);
-			});
-			
-			panel_3.add(btnMisListas);
-			
-			btnRecientes = new JButton("Recientes");
-			panel_3.add(btnRecientes);
-			
-			btnNuevaLista = new JButton("Nueva lista");
-			btnNuevaLista.addActionListener((ev) -> {
-				cl.show(cards, VentanaNuevaLista.TAG);
-			});
-			panel_3.add(btnNuevaLista);
-			
-			//Create the "cards".
-			JPanel card_login = new VentanaLogin();
-			JPanel card_registro = new VentanaRegistro();
-			JPanel card_explorar = new VentanaExplorar();
-			JPanel card_nueva_lista = new VentanaNuevaLista();
-			JPanel card_lista = new VentanaLista();
+		frmAppvideo.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		frmAppvideo.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		JLabel lblAppvideologo = new JLabel("");
+		lblAppvideologo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/AppVideo/images/logo-100.png")));
+		panel.add(lblAppvideologo);
+		
+		panel.add(Box.createRigidArea(new Dimension(30,40)));
+		
+		txtUserName = new JLabel("Desconectado");
+		panel.add(txtUserName);
+		
+		Component rigidArea = Box.createRigidArea(new Dimension(30, 40));
+		panel.add(rigidArea);
+		
+		JPanel panel_2 = new JPanel();
+		panel.add(panel_2);
+		
+		btnRegistro = new JButton("Registro");
+		btnRegistro.addActionListener((ev) -> {
+			cl.show(cards, VentanaRegistro.TAG);
+		});
+		
+		panel_2.add(btnRegistro);
+		
+		
+		
+		btnLogin = new JButton("Login");
+		btnLogin.addActionListener((ev) -> {
+			cl.show(cards, VentanaLogin.TAG);
+		});
+		panel_2.add(btnLogin);
+		
+		Component rigidArea_1 = Box.createRigidArea(new Dimension(30, 40));
+		panel.add(rigidArea_1);
+		
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener((ev) -> {
+			Controlador.getInstance().logout();
+		});
+		
+		panel.add(btnLogout);
+		
+		Component rigidArea_1_1 = Box.createRigidArea(new Dimension(30, 40));
+		panel.add(rigidArea_1_1);
+		
+		btnPremium = new JButton("Premium");
+		panel.add(btnPremium);
+		
+		JPanel panel_1 = new JPanel();
+		frmAppvideo.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
+		
+		
+		JPanel panel_3 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel_1.add(panel_3);
+		
+		btnExplorar = new JButton("Explorar");
+		btnExplorar.addActionListener((ev) -> {
+			cl.show(cards, VentanaExplorar.TAG);
+		});
+		panel_3.add(btnExplorar);
+		
+		btnMisListas = new JButton("Mis listas");
+		btnMisListas.addActionListener((ev) -> {
+			cl.show(cards, VentanaLista.TAG);
+		});
+		
+		panel_3.add(btnMisListas);
+		
+		btnRecientes = new JButton("Recientes");
+		panel_3.add(btnRecientes);
+		
+		btnNuevaLista = new JButton("Nueva lista");
+		btnNuevaLista.addActionListener((ev) -> {
+			cl.show(cards, VentanaNuevaLista.TAG);
+		});
+		panel_3.add(btnNuevaLista);
+		
+		cl = new CardLayout();
 
-			//Create the panel that contains the "cards".
-			cl = new CardLayout();
-			cards = new JPanel(cl);
-			panel_1.add(cards);
-			cards.add(card_login, VentanaLogin.TAG);
-			cards.add(card_registro, VentanaRegistro.TAG);
-			cards.add(card_explorar, VentanaExplorar.TAG);
-			cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
+		
+		Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
+			@Override
+			public void onUsuarioLogged(Usuario u) {
+				EventQueue.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+						updateUIlogin();
+						
+						JPanel card_explorar = new VentanaExplorar();
+						JPanel card_nueva_lista = new VentanaNuevaLista();
+						JPanel card_lista = new VentanaLista();
+
+
+						cards.add(card_explorar, VentanaExplorar.TAG);
+						cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
+						
+						cards.add(card_lista, VentanaLista.TAG);
+						
+						cl.show(cards, VentanaExplorar.TAG);
+						
+		            }
+		        });
+			}
+
+			@Override
+			public void onUsuarioLogout(Usuario u) {
+
+				EventQueue.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+						updateUIlogin();
+						cl.show(cards, VentanaLogin.TAG);
+		            }
+		        });
+
+			}
+		});
+		//Create the "cards".
+		JPanel card_login = new VentanaLogin();
+		JPanel card_registro = new VentanaRegistro();
+
+		//Create the panel that contains the "cards".
+		cards = new JPanel(cl);
+		panel_1.add(cards);
+		cards.add(card_login, VentanaLogin.TAG);
+		cards.add(card_registro, VentanaRegistro.TAG);
+
+		updateUIlogin();
 			
-			cards.add(card_lista, VentanaLista.TAG);
-
-			updateUIlogin();
 			
-			Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
-				@Override
-				public void onUsuarioLogged(Usuario u) {
-					updateUIlogin();
-					cl.show(cards, VentanaExplorar.TAG);
-				}
-
-				@Override
-				public void onUsuarioLogout(Usuario u) {
-					updateUIlogin();	
-					cl.show(cards, VentanaLogin.TAG);
-
-				}
-			});
 
 	}
 	

@@ -26,7 +26,7 @@ public class Controlador {
 
 	public enum Environment{PRODUCTION,WBUILDER};
 	
-	public static Environment env = Environment.WBUILDER;
+	public Environment env = Environment.WBUILDER;
 	
 	private static Controlador instance = null;
 	private Optional<Usuario> usuarioActual;

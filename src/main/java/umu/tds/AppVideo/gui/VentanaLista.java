@@ -61,12 +61,26 @@ public class VentanaLista extends JPanel {
 		lblSeleccionar.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_1.add(lblSeleccionar);
 
+		
+		listVideosModel = new DefaultListModel<Video>();
+
+		listVideos = new JList<Video>(listVideosModel);
+		
+		listVideos.setCellRenderer(new VideoListCellRenderer());
+
+		JScrollPane scrollPane = new JScrollPane();
+
+		scrollPane.setViewportView(listVideos);
+
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
         		
         		
             	listasVideo = Controlador.getInstance().getListasUsuario();	
+            	
+            	
+            	System.out.println(listasVideo);
         		String nombresListas[] = listasVideo
         				.stream()
         				.map(lista -> lista.getNombre())
@@ -74,9 +88,9 @@ public class VentanaLista extends JPanel {
         		
         		DefaultComboBoxModel<String> modelListas = new DefaultComboBoxModel<>(nombresListas);
         		combo_listas.setModel(modelListas);
-
-        		if(listasVideo.get(0)!=null) {
-
+        		
+        		
+        		if(listasVideo.size()>0) {
             		loadLista(listasVideo.get(0));
         		}
             }            
@@ -104,17 +118,9 @@ public class VentanaLista extends JPanel {
 		panelReproductor = new PanelReproductor();
 		add(panelReproductor, "cell 1 1,grow");
 		
-		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "cell 0 1,grow");
 		
 		
-		listVideosModel = new DefaultListModel<Video>();
-
-		listVideos = new JList<Video>(listVideosModel);
-		
-		listVideos.setCellRenderer(new VideoListCellRenderer());
-
-		scrollPane.setViewportView(listVideos);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		add(btnCancelar, "cell 0 2,alignx center");
@@ -127,8 +133,11 @@ public class VentanaLista extends JPanel {
 	
 	private void loadLista(ListaVideos lista) {
 		this.listaSeleccionada = lista;
-		listVideosModel.clear();		
-		listVideosModel.addAll(lista.getVideos());
+		if(listVideosModel!=null) {
+			listVideosModel.clear();		
+			listVideosModel.addAll(lista.getVideos());
+		}
+		
 	}
 	
 	private Video getSelectedVideo() {
