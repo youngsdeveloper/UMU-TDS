@@ -157,7 +157,7 @@ public class ControladorUI {
 
 		cl.show(cards, PanelReproductor.TAG);
 		card_reproductor.loadVideo(video);
-		currentPanel = panels.get(PanelReproductor.TAG);
+		currentPanel = panels.get(PanelReproductor .TAG);
 
 	}
 	
