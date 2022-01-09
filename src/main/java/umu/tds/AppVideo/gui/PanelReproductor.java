@@ -22,6 +22,9 @@ public class PanelReproductor extends JPanel {
 	/**
 	 * 
 	 */
+	
+	public final static String TAG = "VentanaReproductor";
+
 	private static final long serialVersionUID = 1L;
 
 

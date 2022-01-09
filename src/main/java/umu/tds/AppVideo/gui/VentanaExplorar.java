@@ -6,10 +6,12 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
 import com.toedter.calendar.JDateChooser;
 
 import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.controlador.ControladorUI;
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
@@ -159,13 +161,28 @@ public class VentanaExplorar extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "cell 0 2 1 3,grow");
 		
+		TableModelVideo tableModelVideos = new TableModelVideo(videos);
 		
-		tableVideos = new JTable(new TableModelVideo(videos));
+		tableVideos = new JTable(tableModelVideos);
 		tableVideos.setTableHeader(null);
 		scrollPane.setViewportView(tableVideos);
 		tableVideos.setRowHeight(150);
 		tableVideos.setRowSelectionAllowed(false);
 		tableVideos.setCellSelectionEnabled(true);
+		tableVideos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		tableVideos.addMouseListener(new java.awt.event.MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+		        int row = tableVideos.rowAtPoint(evt.getPoint());
+		        int col = tableVideos.columnAtPoint(evt.getPoint());
+		        if (row >= 0 && col >= 0) {
+		        	Video video = (Video)tableVideos.getModel().getValueAt(row, col);
+		        	System.out.println(video);
+		        	ControladorUI.getInstance().goToReproductor(video);
+		        }
+		    }
+		});
 
 		tableVideos.setDefaultRenderer(Object.class, new VideoTableCellRenderer());
 		

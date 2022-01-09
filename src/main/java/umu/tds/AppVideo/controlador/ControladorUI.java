@@ -11,12 +11,14 @@ import java.util.Optional;
 import javax.swing.JPanel;
 
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
+import umu.tds.AppVideo.gui.PanelReproductor;
 import umu.tds.AppVideo.gui.SingletonReproductor;
 import umu.tds.AppVideo.gui.VentanaExplorar;
 import umu.tds.AppVideo.gui.VentanaLista;
 import umu.tds.AppVideo.gui.VentanaLogin;
 import umu.tds.AppVideo.gui.VentanaNuevaLista;
 import umu.tds.AppVideo.gui.VentanaRegistro;
+import umu.tds.AppVideo.models.Video;
 
 public class ControladorUI {
 
@@ -142,6 +144,21 @@ public class ControladorUI {
 		if(!prev.equals(next)) {
 			SingletonReproductor.getInstance().cancel();
 		}
+	}
+	
+	public void goToReproductor(Video video) {
+		if(video==null) {
+			return;
+		}
+		PanelReproductor card_reproductor = new PanelReproductor();
+		panels.put(PanelReproductor.TAG, card_reproductor);
+		panelsLogged.add(card_reproductor);
+		cards.add(card_reproductor, PanelReproductor.TAG);
+
+		cl.show(cards, PanelReproductor.TAG);
+		card_reproductor.loadVideo(video);
+		currentPanel = panels.get(PanelReproductor.TAG);
+
 	}
 	
 }
