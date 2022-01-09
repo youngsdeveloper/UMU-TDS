@@ -109,7 +109,7 @@ public class PanelReproductor extends JPanel {
 	
 
 	private void configurarReproductor() {
-		reproductor = new VideoWeb();
+		reproductor = SingletonReproductor.getInstance();
 		panel_reproductor.add(reproductor);
 	}
 

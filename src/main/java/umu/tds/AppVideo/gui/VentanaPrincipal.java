@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.controlador.ControladorUI;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.models.Usuario;
 
@@ -68,8 +69,6 @@ public class VentanaPrincipal {
 		frmAppvideo.setVisible(true);
 	}
 	
-	JPanel cards;
-	CardLayout cl;
 	
 	private JButton btnRegistro, btnLogin;
 	
@@ -112,7 +111,7 @@ public class VentanaPrincipal {
 		
 		btnRegistro = new JButton("Registro");
 		btnRegistro.addActionListener((ev) -> {
-			cl.show(cards, VentanaRegistro.TAG);
+			ControladorUI.getInstance().goToRegistro();
 		});
 		
 		panel_2.add(btnRegistro);
@@ -121,7 +120,7 @@ public class VentanaPrincipal {
 		
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener((ev) -> {
-			cl.show(cards, VentanaLogin.TAG);
+			ControladorUI.getInstance().goToLogin();
 		});
 		panel_2.add(btnLogin);
 		
@@ -153,13 +152,13 @@ public class VentanaPrincipal {
 		
 		btnExplorar = new JButton("Explorar");
 		btnExplorar.addActionListener((ev) -> {
-			cl.show(cards, VentanaExplorar.TAG);
+			ControladorUI.getInstance().goToExplorar();
 		});
 		panel_3.add(btnExplorar);
 		
 		btnMisListas = new JButton("Mis listas");
 		btnMisListas.addActionListener((ev) -> {
-			cl.show(cards, VentanaLista.TAG);
+			ControladorUI.getInstance().goToMisListas();
 		});
 		
 		panel_3.add(btnMisListas);
@@ -169,11 +168,10 @@ public class VentanaPrincipal {
 		
 		btnNuevaLista = new JButton("Nueva lista");
 		btnNuevaLista.addActionListener((ev) -> {
-			cl.show(cards, VentanaNuevaLista.TAG);
+			ControladorUI.getInstance().goToNuevaLista();
 		});
 		panel_3.add(btnNuevaLista);
 		
-		cl = new CardLayout();
 
 		
 		Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
@@ -184,18 +182,8 @@ public class VentanaPrincipal {
 		            public void run() {
 						updateUIlogin();
 						
-						JPanel card_explorar = new VentanaExplorar();
-						JPanel card_nueva_lista = new VentanaNuevaLista();
-						JPanel card_lista = new VentanaLista();
-
-
-						cards.add(card_explorar, VentanaExplorar.TAG);
-						cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
-						
-						cards.add(card_lista, VentanaLista.TAG);
-						
-						cl.show(cards, VentanaExplorar.TAG);
-						
+						ControladorUI.getInstance().setupLogged();
+						ControladorUI.getInstance().goToExplorar();
 		            }
 		        });
 			}
@@ -207,22 +195,19 @@ public class VentanaPrincipal {
 		            @Override
 		            public void run() {
 						updateUIlogin();
-						cl.show(cards, VentanaLogin.TAG);
+						ControladorUI.getInstance().removeLogged();
+						ControladorUI.getInstance().goToLogin();
 		            }
 		        });
 
 			}
 		});
 		//Create the "cards".
-		JPanel card_login = new VentanaLogin();
-		JPanel card_registro = new VentanaRegistro();
 
-		//Create the panel that contains the "cards".
-		cards = new JPanel(cl);
-		panel_1.add(cards);
-		cards.add(card_login, VentanaLogin.TAG);
-		cards.add(card_registro, VentanaRegistro.TAG);
-
+		JPanel panel_cards = ControladorUI.getInstance().getPanel();
+		panel_1.add(panel_cards);
+		
+		
 		updateUIlogin();
 			
 			
