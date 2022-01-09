@@ -110,23 +110,15 @@ public class VentanaPrincipal {
 			panel.add(panel_2);
 			
 			btnRegistro = new JButton("Registro");
-			btnRegistro.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					cl.show(cards, VentanaRegistro.TAG);
-				}});
+			btnRegistro.addActionListener((ev) -> {
+				cl.show(cards, VentanaRegistro.TAG);
+			});
 			
 			panel_2.add(btnRegistro);
 			
 			btnLogin = new JButton("Login");
-			btnLogin.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					cl.show(cards, VentanaLogin.TAG);
-				}
-				
+			btnLogin.addActionListener((ev) -> {
+				cl.show(cards, VentanaLogin.TAG);
 			});
 			panel_2.add(btnLogin);
 			
@@ -134,13 +126,8 @@ public class VentanaPrincipal {
 			panel.add(rigidArea_1);
 			
 			btnLogout = new JButton("Logout");
-			btnLogout.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					Controlador.getInstance().logout();
-				}
-				
+			btnLogout.addActionListener((ev) -> {
+				Controlador.getInstance().logout();
 			});
 			
 			panel.add(btnLogout);
@@ -162,14 +149,16 @@ public class VentanaPrincipal {
 			panel_1.add(panel_3);
 			
 			btnExplorar = new JButton("Explorar");
-			btnExplorar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					cl.show(cards, VentanaExplorar.TAG);
-				}
+			btnExplorar.addActionListener((ev) -> {
+				cl.show(cards, VentanaExplorar.TAG);
 			});
 			panel_3.add(btnExplorar);
 			
 			btnMisListas = new JButton("Mis listas");
+			btnMisListas.addActionListener((ev) -> {
+				cl.show(cards, VentanaLista.TAG);
+			});
+			
 			panel_3.add(btnMisListas);
 			
 			btnRecientes = new JButton("Recientes");
@@ -186,6 +175,7 @@ public class VentanaPrincipal {
 			JPanel card_registro = new VentanaRegistro();
 			JPanel card_explorar = new VentanaExplorar();
 			JPanel card_nueva_lista = new VentanaNuevaLista();
+			JPanel card_lista = new VentanaLista();
 
 			//Create the panel that contains the "cards".
 			cl = new CardLayout();
@@ -195,6 +185,8 @@ public class VentanaPrincipal {
 			cards.add(card_registro, VentanaRegistro.TAG);
 			cards.add(card_explorar, VentanaExplorar.TAG);
 			cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
+			
+			cards.add(card_lista, VentanaLista.TAG);
 
 			updateUIlogin();
 			

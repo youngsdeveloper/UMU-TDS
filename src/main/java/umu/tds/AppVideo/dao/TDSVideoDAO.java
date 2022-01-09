@@ -46,7 +46,7 @@ public class TDSVideoDAO implements VideoDAO{
 	private String obtenerCodigosEtiquetas(List<Etiqueta> etiquetas){
 		String lineas = "";
 		for (Etiqueta etiqueta: etiquetas) {
-		lineas += etiqueta.getId() + " ";
+		lineas += etiqueta.getNombre() + " ";
 		}
 		return lineas.substring(0, lineas.length()-1);
 	}
@@ -79,8 +79,9 @@ public class TDSVideoDAO implements VideoDAO{
 			// TODO: Obtener etiqueta. ¿Esta bien hacerlo asi?
 			// TODO: Revisar CatalogoEtiquetas. Usar en vez de un catalogo un Pool de Objetos.
 			
-			CatalogoEtiquetas catalogoEtiquetas = CatalogoEtiquetas.getInstance();
-			etiquetas.add(catalogoEtiquetas.getEtiqueta(Integer.valueOf((String)strTok.nextToken())));
+			
+			Etiqueta e = new Etiqueta(strTok.nextToken());
+			etiquetas.add(e);
 		}
 		return etiquetas;
 	}

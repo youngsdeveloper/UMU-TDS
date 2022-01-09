@@ -24,6 +24,9 @@ import umu.tds.AppVideo.models.Video;
 
 public class Controlador {
 
+	public enum Environment{PRODUCTION,WBUILDER};
+	
+	public static Environment env = Environment.WBUILDER;
 	
 	private static Controlador instance = null;
 	private Optional<Usuario> usuarioActual;
@@ -210,7 +213,7 @@ public class Controlador {
 		return lista;
 	}
 	
-public ListaVideos updateLista(ListaVideos lista){
+	public ListaVideos updateLista(ListaVideos lista){
 		
 		if(usuarioActual.isEmpty()){
 			return null; 
@@ -235,8 +238,6 @@ public ListaVideos updateLista(ListaVideos lista){
 
 		return lista;
 	}
-	
-	
-	
-	
 }
+
+
