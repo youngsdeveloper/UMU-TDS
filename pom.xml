@@ -33,6 +33,40 @@
 	  <version>1.4</version>
 	</dependency>
 	
+	
+	<!--  
+	<dependency>
+	    <groupId>tds.driver</groupId>
+	    <artifactId>servicioPersistencia</artifactId>
+	    <version>1.0.0</version>
+	    <scope>system</scope>
+	    <systemPath>${pom.basedir}/lib/DriverPersistencia.jar</systemPath>
+	</dependency>
+	
+	
+	<dependency>
+	    <groupId>tds.video</groupId>
+	    <artifactId>videoWeb</artifactId>
+	    <version>1.0.0</version>
+	    <scope>system</scope>
+	    <systemPath>${pom.basedir}/lib/VideoWeb.jar</systemPath>
+	</dependency>
+	
+	
+	<dependency>
+	    <groupId>com.miglayout</groupId>
+	    <artifactId>miglayout</artifactId>
+	    <version>3.7.4</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>com.jgoodies</groupId>
+	    <artifactId>jgoodies-forms</artifactId>
+	    <version>1.8.0</version>
+	</dependency>
+	
+	-->
+	
   </dependencies>
 
 
