@@ -26,50 +26,40 @@
       <scope>test</scope>
     </dependency>
     
+    
     <!--  JCalendar -->
     <dependency>
 	  <groupId>com.toedter</groupId>
 	  <artifactId>jcalendar</artifactId>
 	  <version>1.4</version>
 	</dependency>
-	
-	
-	<!--  
+		
+	 <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>17</version>
+        <classifier>linux</classifier>
+    </dependency>
+    
 	<dependency>
-	    <groupId>tds.driver</groupId>
-	    <artifactId>servicioPersistencia</artifactId>
-	    <version>1.0.0</version>
-	    <scope>system</scope>
-	    <systemPath>${pom.basedir}/lib/DriverPersistencia.jar</systemPath>
-	</dependency>
-	
-	
-	<dependency>
-	    <groupId>tds.video</groupId>
-	    <artifactId>videoWeb</artifactId>
-	    <version>1.0.0</version>
-	    <scope>system</scope>
-	    <systemPath>${pom.basedir}/lib/VideoWeb.jar</systemPath>
-	</dependency>
-	
-	
-	<dependency>
-	    <groupId>com.miglayout</groupId>
-	    <artifactId>miglayout</artifactId>
-	    <version>3.7.4</version>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx-swing</artifactId>
+        <version>17</version>
+		<classifier>linux</classifier>
+	    
 	</dependency>
 	
 	<dependency>
-	    <groupId>com.jgoodies</groupId>
-	    <artifactId>jgoodies-forms</artifactId>
-	    <version>1.8.0</version>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx-web</artifactId>
+        <version>17</version>
+	    <classifier>linux</classifier>
 	</dependency>
 	
-	-->
+		
+	    
 	
   </dependencies>
-
-
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
