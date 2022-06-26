@@ -138,6 +138,9 @@ public class VentanaPrincipal {
 		panel.add(rigidArea_1_1);
 		
 		btnPremium = new JButton("Premium");
+		btnPremium.addActionListener((ev)->{
+			ControladorUI.getInstance().goToPremium();
+		});
 		panel.add(btnPremium);
 		
 		JPanel panel_1 = new JPanel();
@@ -205,6 +208,10 @@ public class VentanaPrincipal {
 
 			}
 		});
+		
+		Controlador.getInstance().addUsuarioUpdatedListener((u)->{
+			updateUIlogin(); // To refresh premium 
+		});
 		//Create the "cards".
 
 		JPanel panel_cards = ControladorUI.getInstance().getPanel();
@@ -244,6 +251,13 @@ public class VentanaPrincipal {
 			btnMisListas.setEnabled(true);
 			btnRecientes.setEnabled(true);
 			btnNuevaLista.setEnabled(true);
+			
+			if(usuarioActual.get().isPremium()) {
+				// Si es premium
+				btnPremium.setForeground(Color.GREEN);
+			}else {
+				btnPremium.setForeground(Color.RED);
+			}
 		}else {
 			
 			txtUserName.setText("Desconectado");
@@ -257,6 +271,9 @@ public class VentanaPrincipal {
 			btnMisListas.setEnabled(false);
 			btnRecientes.setEnabled(false);
 			btnNuevaLista.setEnabled(false);
+			
+			btnPremium.setForeground(Color.LIGHT_GRAY);
+
 
 		}
 	}

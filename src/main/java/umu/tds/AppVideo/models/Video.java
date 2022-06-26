@@ -62,6 +62,9 @@ public class Video {
 		return videoID;
 	}
 
+	public void agregarReproduccion() {
+		this.numReproducciones++;
+	}
 
 	@Override
 	public String toString() {

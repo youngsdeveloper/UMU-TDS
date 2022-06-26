@@ -17,9 +17,10 @@ public class Usuario {
 	private String password;
 	private List<ListaVideos> listasVideos;
 	private List<Video> recientes;
+	private boolean premium;
 
 	//Constructor
-	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password) {
+	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password, boolean premium) {
 		this.id = 0;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -27,6 +28,7 @@ public class Usuario {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.premium = premium;
 		this.listasVideos = new ArrayList<ListaVideos>(10);
 		this.recientes = new LinkedList<Video>(); 
 	}
@@ -115,15 +117,25 @@ public class Usuario {
 	public void setRecientes(List<Video> recientes) {
 		this.recientes = recientes;
 	}
+	
+	public boolean isPremium() {
+		return premium;
+	}
+	
+	public void setPremium(boolean premium) {
+		this.premium = premium;
+	}
+
+	
+	// toString
+
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
 				+ fechaNacimiento + ", email=" + email + ", username=" + username + ", password=" + password
-				+ ", listasVideos=" + listasVideos + ", recientes=" + recientes + "]";
+				+ ", listasVideos=" + listasVideos + ", recientes=" + recientes + ", premium=" + premium + "]";
 	}
-
-	
 	
 	
 	

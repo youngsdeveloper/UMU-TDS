@@ -17,6 +17,7 @@ import umu.tds.AppVideo.gui.VentanaExplorar;
 import umu.tds.AppVideo.gui.VentanaLista;
 import umu.tds.AppVideo.gui.VentanaLogin;
 import umu.tds.AppVideo.gui.VentanaNuevaLista;
+import umu.tds.AppVideo.gui.VentanaPremium;
 import umu.tds.AppVideo.gui.VentanaRecientes;
 import umu.tds.AppVideo.gui.VentanaRegistro;
 import umu.tds.AppVideo.models.Video;
@@ -76,21 +77,25 @@ public class ControladorUI {
 		JPanel card_nueva_lista = new VentanaNuevaLista();
 		JPanel card_lista = new VentanaLista();
 		JPanel card_recientes = new VentanaRecientes();
+		JPanel card_premium = new VentanaPremium();
 
 		panels.put(VentanaExplorar.TAG, card_explorar);
 		panels.put(VentanaNuevaLista.TAG, card_nueva_lista);
 		panels.put(VentanaLista.TAG, card_lista);
 		panels.put(VentanaRecientes.TAG, card_recientes);
+		panels.put(VentanaPremium.TAG, card_premium);
 
 		panelsLogged.add(card_explorar);
 		panelsLogged.add(card_nueva_lista);
 		panelsLogged.add(card_lista);
 		panelsLogged.add(card_recientes);
+		panelsLogged.add(card_premium);
 
 		cards.add(card_explorar, VentanaExplorar.TAG);
 		cards.add(card_nueva_lista, VentanaNuevaLista.TAG);
 		cards.add(card_lista, VentanaLista.TAG);
 		cards.add(card_recientes, VentanaRecientes.TAG);
+		cards.add(card_premium, VentanaPremium.TAG);
 
 	}
 	
@@ -105,6 +110,7 @@ public class ControladorUI {
 		panels.remove(VentanaNuevaLista.TAG);
 		panels.remove(VentanaLista.TAG);
 		panels.remove(VentanaRecientes.TAG);
+		panels.remove(VentanaPremium.TAG);
 
 		panelsLogged.clear();		
 	}
@@ -135,6 +141,13 @@ public class ControladorUI {
 		onTabChanged(currentPanel, newPanel);
 		cl.show(cards, VentanaRecientes.TAG);
 		currentPanel = panels.get(VentanaRecientes.TAG);
+	}
+	
+	public void goToPremium() {
+		JPanel newPanel = panels.get(VentanaPremium.TAG);
+		onTabChanged(currentPanel, newPanel);
+		cl.show(cards, VentanaPremium.TAG);
+		currentPanel = panels.get(VentanaPremium.TAG);
 	}
 	public void goToLogin() {
 		JPanel newPanel = panels.get(VentanaLogin.TAG);

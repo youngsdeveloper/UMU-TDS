@@ -64,6 +64,8 @@ public class VideoSeeder {
 			
 	        Random random = new Random();
 	        int num_reps = random.ints(1, 20000).findFirst().getAsInt();
+	        //num_reps initial to 0
+	        num_reps = 0;
 			
 			Video video = new Video(mapVideos.get(video_code), etiquetas,  video_code, num_reps);
 			

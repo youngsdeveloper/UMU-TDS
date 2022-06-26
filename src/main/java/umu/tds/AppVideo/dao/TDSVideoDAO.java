@@ -173,5 +173,29 @@ public class TDSVideoDAO implements VideoDAO{
 		
 	}
 
+	@Override
+	public void update(Video video) {
+
+		Entidad eVideo = servPersistencia.recuperarEntidad(video.getId());
+		
+		for(Propiedad prop:eVideo.getPropiedades()){
+
+			if(prop.getNombre().equals(TITULO)){
+				prop.setValor(video.getTitulo());
+			}else if(prop.getNombre().equals(VIDEO_ID)){
+				prop.setValor(video.getVideoID());
+			}else if(prop.getNombre().equals(NUM_REPRODUCCIONES)){
+				prop.setValor(String.valueOf(video.getNumReproducciones()));
+			}else if(prop.getNombre().equals(ETIQUETAS)){
+				prop.setValor(obtenerCodigosEtiquetas(video.getEtiquetas()));
+			}
+			
+
+			
+			servPersistencia.modificarPropiedad(prop);
+			
+		}
+	}
+
 	
 }

@@ -33,6 +33,7 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 	private static final String PASSWORD = "password";
 	private static final String LISTAS_VIDEOS = "listasVideos";
 	private static final String VIDEOS_RECIENTES = "videosRecientes";
+	private static final String PREMIUM = "premium";
 
 	// Constructor
 	private ServicioPersistencia servPersistencia;
@@ -86,6 +87,7 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		propiedades.add(new Propiedad(PASSWORD, usuario.getPassword().toString()));
 		propiedades.add(new Propiedad(LISTAS_VIDEOS, obtenerCodigosListas(usuario.getListasVideos())));
 		propiedades.add(new Propiedad(VIDEOS_RECIENTES, obtenerCodigosVideos(usuario.getRecientes())));
+		propiedades.add(new Propiedad(PREMIUM, usuario.isPremium() ? "true" : "false"));
 
 		eUsuario.setPropiedades(propiedades);
 		
@@ -138,12 +140,14 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		String username = servPersistencia.recuperarPropiedadEntidad(eUsuario, USERNAME);
 		String password = servPersistencia.recuperarPropiedadEntidad(eUsuario, PASSWORD);	
 
+		
+		boolean premium = servPersistencia.recuperarPropiedadEntidad(eUsuario, PREMIUM).equals("true")?true:false;
 		List<ListaVideos> listasVideos = obtenerListasVideosCodigos(servPersistencia.recuperarPropiedadEntidad(eUsuario, LISTAS_VIDEOS));
 
 		List<Video> recientes = obtenerVideos(servPersistencia.recuperarPropiedadEntidad(eUsuario, VIDEOS_RECIENTES));
 
 				
-		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
+		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password,premium);
 		usuario.setListasVideos(listasVideos);
 		usuario.setRecientes(recientes);
 		usuario.setId(eUsuario.getId());
@@ -191,6 +195,8 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 				prop.setValor(obtenerCodigosListas(usuario.getListasVideos()));
 			}else if(prop.getNombre().equals(VIDEOS_RECIENTES)) {
 				prop.setValor(obtenerCodigosVideos(usuario.getRecientes()));
+			}else if(prop.getNombre().equals(PREMIUM)) {
+				prop.setValor(usuario.isPremium()?"true":"false");
 			}
 			
 

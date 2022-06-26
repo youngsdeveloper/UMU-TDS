@@ -39,9 +39,12 @@ public class PanelReproductor extends JPanel {
 	private JLabel lbl_num_reproducciones;
 	private DefaultListModel<Etiqueta> modelEtiquetas;
 	
+	private JPanel panel_etiquetas;
+	private JPanel panel_nueva_etiqueta;
+	private JList<Etiqueta> listEtiquetas;
+	
 	private JButton btn_crear_etiqueta;
 	private JTextField text_crear_etiqueta;
-	
 	private Optional<Video> video = Optional.empty();
 	
 	private boolean hasToAddToRecentes = true; // Can set to false
@@ -60,12 +63,14 @@ public class PanelReproductor extends JPanel {
 		panel_2.add(panel);
 		
 		label_titulo_video = new JLabel("Titulo del video");
+		label_titulo_video.setVisible(false);
 		panel.add(label_titulo_video);
 		
 		JPanel panel_1 = new JPanel();
 		panel_2.add(panel_1);
 		
-		lbl_num_reproducciones = new JLabel("Número de reproducciones");
+		lbl_num_reproducciones = new JLabel("Reproducciones");
+		lbl_num_reproducciones.setVisible(false);
 		panel_1.add(lbl_num_reproducciones);
 		
 		JPanel panel_4 = new JPanel();
@@ -74,34 +79,37 @@ public class PanelReproductor extends JPanel {
 		panel_reproductor = new JPanel();
 		panel_4.add(panel_reproductor);
 		
-		JPanel panel_5 = new JPanel();
-		panel_2.add(panel_5);
+		panel_etiquetas = new JPanel();
+
+		panel_2.add(panel_etiquetas);
 		
-		JList<Etiqueta> list = new JList<Etiqueta>();
+		listEtiquetas = new JList<Etiqueta>();
+		listEtiquetas.setVisible(false);
 		
 		modelEtiquetas = new DefaultListModel<Etiqueta>();
-		list.setModel(modelEtiquetas);
-		list.setCellRenderer(new EtiquetaListCellRenderer());
-		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-		list.setVisibleRowCount(1);
+		listEtiquetas.setModel(modelEtiquetas);
+		listEtiquetas.setCellRenderer(new EtiquetaListCellRenderer());
+		listEtiquetas.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		listEtiquetas.setVisibleRowCount(1);
 
-		panel_5.add(list);
+		panel_etiquetas.add(listEtiquetas);
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3);
+		panel_nueva_etiqueta = new JPanel();
+		panel_nueva_etiqueta.setVisible(false);
+		panel_2.add(panel_nueva_etiqueta);
 		
 		JLabel lblNewLabel_2 = new JLabel("Nueva etiqueta: ");
-		panel_3.add(lblNewLabel_2);
+		panel_nueva_etiqueta.add(lblNewLabel_2);
 		
 		text_crear_etiqueta = new JTextField();
-		panel_3.add(text_crear_etiqueta);
+		panel_nueva_etiqueta.add(text_crear_etiqueta);
 		text_crear_etiqueta.setColumns(10);
 		text_crear_etiqueta.addActionListener((a) -> {
 			insertarEtiqueta();
 		});
 		
 		btn_crear_etiqueta = new JButton("Añadir");
-		panel_3.add(btn_crear_etiqueta);
+		panel_nueva_etiqueta.add(btn_crear_etiqueta);
 		
 		btn_crear_etiqueta.setEnabled(false);
 		
@@ -132,14 +140,23 @@ public class PanelReproductor extends JPanel {
 	
 	public void loadVideo(Video video) {
 		
+		video = Controlador.getInstance().sumarReproduccion(video);
+		
+		lbl_num_reproducciones.setText("Reproducciones: " + video.getNumReproducciones());
+		lbl_num_reproducciones.setVisible(true);
+		
 		reproductor = SingletonReproductor.getInstance();
 		panel_reproductor.add(reproductor);
 		
 		reproductor.playVideo(video.getURL());
 		
 		label_titulo_video.setText(video.getTitulo());
+		lbl_num_reproducciones.setVisible(true);
+
 		
-		
+		listEtiquetas.setVisible(true);
+		panel_nueva_etiqueta.setVisible(true);
+
 		modelEtiquetas.clear();
 		modelEtiquetas.addAll(video.getEtiquetas());
 		
@@ -154,7 +171,7 @@ public class PanelReproductor extends JPanel {
 	
 
 	private void configurarReproductor() {
-		System.out.println("Configurando reproductor...");
+		//System.out.println("Configurando reproductor...");
 		
 	}
 	

@@ -72,7 +72,7 @@ public class Controlador {
 		}
 		
 		
-		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password);
+		Usuario usuario = new Usuario(nombre, apellidos, fechaNacimiento, email, username, password, false);
 		
 		// DONE: Guardar Usuario en UsuarioDAO
 		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
@@ -352,10 +352,38 @@ public class Controlador {
 		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
 		usuarioDAO.update(usuarioActual.get());
 		
-		System.out.println(usuarioActual.get());
 		
 		fireUsuarioUpdatedEvent(usuarioActual.get());
 		
+	}
+	
+	public Video sumarReproduccion(Video video) {
+		video.agregarReproduccion();
+		
+		VideoDAO videoDAO = FactoriaDAO.getInstance().getVideoDAO();
+		videoDAO.update(video);
+		
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+		catalogoVideos.updateVideo(video);
+		return video;
+	}
+	
+	public void setPremium(boolean result) {
+		if(usuarioActual.isEmpty()){
+			return; 
+		}
+		
+		usuarioActual.get().setPremium(result);
+		
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+
+		
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+		
+		
+		fireUsuarioUpdatedEvent(usuarioActual.get());
 	}
 }
 
