@@ -243,6 +243,35 @@ public class Controlador {
 		return lista;
 	}
 	
+	public ListaVideos insertarVideoLista(ListaVideos lista, Video video){
+		
+		if(usuarioActual.isEmpty()){
+			return null; 
+		}
+		
+		lista.insertarVideo(video);
+		
+		// Insertamos la lista en el DAO
+		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
+		listaDAO.update(lista);
+		
+		int index = usuarioActual.get().getListasVideos().indexOf(lista);
+		usuarioActual.get().getListasVideos().set(index, lista);
+		
+		// Actualizamos el usuario actual en el catalogo
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+		
+		// Actualizamos el usuario actual en el DAO
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+		
+		// Notificamos actualizacion usuario actual
+		fireUsuarioUpdatedEvent(usuarioActual.get());
+
+		return lista;
+	}
+	
 	public ListaVideos updateLista(ListaVideos lista){
 		
 		if(usuarioActual.isEmpty()){

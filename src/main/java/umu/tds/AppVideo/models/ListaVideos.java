@@ -45,8 +45,13 @@ public class ListaVideos {
 	}
 
 	public List<Video> getVideos() {
-		return videos;
+		return new LinkedList<Video>(videos);
 	}
+	
+	public void insertarVideo(Video v) {
+		this.videos.add(v);
+	}
+	
 	public void setVideos(List<Video> videos) {
 		this.videos = videos;
 	}

@@ -258,11 +258,17 @@ public class VentanaNuevaLista extends JPanel {
 	}
 	
 	private void addSelectedVideo() {
+		if(this.listaSeleccionada.isEmpty())
+			return;
+		
+		
 		try {
 			Video selectedVideo = (Video)tableVideos.getValueAt(tableVideos.getSelectedRow(), tableVideos.getSelectedColumn());
 			
 			if(!listVideosModel.contains(selectedVideo)) {
 				listVideosModel.addElement(selectedVideo);
+				
+				
 				
 				EventQueue.invokeLater(new Runnable() {
 		            @Override
@@ -272,6 +278,9 @@ public class VentanaNuevaLista extends JPanel {
 		        		vertical.setValue(vertical.getMaximum());
 		            }            
 		        });
+				
+				
+				Controlador.getInstance().insertarVideoLista(this.listaSeleccionada.get(), selectedVideo);
 			}else {
 				// El elemento ya ha sido insertado
 				JOptionPane.showMessageDialog(this, "El video ya ha sido insertado en la lista", "Ups...", JOptionPane.INFORMATION_MESSAGE);
