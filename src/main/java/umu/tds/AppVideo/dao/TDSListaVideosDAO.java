@@ -129,9 +129,9 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 	public void update(ListaVideos listaVideos) {
 		
 
-		Entidad eUsuario = servPersistencia.recuperarEntidad(listaVideos.getId());
+		Entidad eLista = servPersistencia.recuperarEntidad(listaVideos.getId());
 		
-		for(Propiedad prop:eUsuario.getPropiedades()){
+		for(Propiedad prop:eLista.getPropiedades()){
 
 			if(prop.getNombre().equals(NOMBRE)){
 				prop.setValor(listaVideos.getNombre());
@@ -143,6 +143,14 @@ public class TDSListaVideosDAO implements ListaVideosDAO{
 			servPersistencia.modificarPropiedad(prop);
 			
 		}
+	}
+
+	@Override
+	public void delete(ListaVideos listaVideos) {
+
+		Entidad eLista = servPersistencia.recuperarEntidad(listaVideos.getId());
+		servPersistencia.borrarEntidad(eLista);
+		
 	}
 	
 

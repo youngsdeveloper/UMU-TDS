@@ -43,6 +43,8 @@ public class VentanaNuevaLista extends JPanel {
 
 	private JButton btnAñadir;
 	private JButton btnQuitar;
+	private JButton btnAceptar;
+	private JButton btnEliminar;
 	
 	private Optional<ListaVideos> listaSeleccionada = Optional.empty();
 	/**
@@ -81,7 +83,13 @@ public class VentanaNuevaLista extends JPanel {
 		JPanel panel_4 = new JPanel();
 		panel.add(panel_4);
 		
-		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setEnabled(false);
+		btnEliminar.addActionListener((action) ->{
+			deleteList();
+		});
+		
+		
 		panel_4.add(btnEliminar);
 		
 		JPanel panel_1 = new JPanel();
@@ -174,7 +182,8 @@ public class VentanaNuevaLista extends JPanel {
 		JPanel panel_10 = new JPanel();
 		panel_8.add(panel_10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setEnabled(false);
 		btnAceptar.addActionListener((ev) -> {
 			storeList();
 		});
@@ -196,7 +205,8 @@ public class VentanaNuevaLista extends JPanel {
 			// Hay una lista, mostrarla
 			
 			listaSeleccionada = result;
-			
+			btnAceptar.setEnabled(true);
+			btnEliminar.setEnabled(true);
 			btnAñadir.setEnabled(true);
 			btnQuitar.setEnabled(true);
 			
@@ -223,12 +233,15 @@ public class VentanaNuevaLista extends JPanel {
 				ListaVideos listaCreada = Controlador.getInstance().registrarLista(q);
 				
 				listaSeleccionada = Optional.of(listaCreada);
-				
+				btnAceptar.setEnabled(true);
+				btnEliminar.setEnabled(true);
 				btnAñadir.setEnabled(true);
 				btnQuitar.setEnabled(true);
 				
 				listVideosModel.clear();
 			}else {
+				btnEliminar.setEnabled(true);
+				btnEliminar.setEnabled(false);
 				btnAñadir.setEnabled(false);
 				btnQuitar.setEnabled(false);
 			}
@@ -299,7 +312,50 @@ public class VentanaNuevaLista extends JPanel {
 			
 			Controlador.getInstance().updateLista(l);
 			
+			JOptionPane.showMessageDialog(this, "La lista ha sido actualizada correctamente.", "Lista creada", JOptionPane.INFORMATION_MESSAGE);
+
+			
 		}
+	}
+	
+	private void resetSearch() {
+		btnAceptar.setEnabled(false);
+		btnEliminar.setEnabled(false);
+		btnAñadir.setEnabled(false);
+		btnQuitar.setEnabled(false);
+		text_search.setText("");
+		listVideosModel.clear();
+		
+		listaSeleccionada = Optional.empty();
+
+	}
+	
+	private void deleteList() {
+		
+		
+		if(listaSeleccionada.isEmpty())
+			return;
+		
+		Object[] options = {"Aceptar",
+		"Cancelar"};
+
+		int option = JOptionPane.showOptionDialog(this,
+				"¿Desea eliminar la lista: '" + listaSeleccionada.get().getNombre() + "'? ",
+				"Eliminar lista",
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+		
+		if(option==0) {
+			// Eliminar lista
+			
+			Controlador.getInstance().deleteLista(listaSeleccionada.get());
+			
+			resetSearch();
+			
+			
+		}
+		
 	}
 	
 

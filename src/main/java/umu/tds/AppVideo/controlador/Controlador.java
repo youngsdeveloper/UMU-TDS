@@ -14,6 +14,7 @@ import umu.tds.AppVideo.dao.ListaVideosDAO;
 import umu.tds.AppVideo.dao.TDSListaVideosDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
+import umu.tds.AppVideo.events.UsuarioUpdatedListener;
 import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.CatalogoUsuarios;
 import umu.tds.AppVideo.models.CatalogoVideos;
@@ -34,10 +35,12 @@ public class Controlador {
 	// Evento onUsuarioLogged
 	
 	private List<UsuarioLoggedListener> usuarioLoggedListeners;
+	private List<UsuarioUpdatedListener> usuarioUpdatedListeners;
 
 	private Controlador() {
 		usuarioActual = Optional.empty();
 		usuarioLoggedListeners = new LinkedList<UsuarioLoggedListener>();
+		usuarioUpdatedListeners = new LinkedList<UsuarioUpdatedListener>();
 	}
 
 	public static Controlador getInstance() {
@@ -90,6 +93,16 @@ public class Controlador {
 	private void fireUsuarioLoggedOutEvent(Usuario u){
 		for(UsuarioLoggedListener l:usuarioLoggedListeners) {
 			l.onUsuarioLogout(u);
+		}
+	}
+	
+	public void addUsuarioUpdatedListener(UsuarioUpdatedListener listener){
+		this.usuarioUpdatedListeners.add(listener);
+	}
+	
+	private void fireUsuarioUpdatedEvent(Usuario u){
+		for(UsuarioUpdatedListener l:usuarioUpdatedListeners) {
+			l.onUsuarioUpdated(u);
 		}
 	}
 	
@@ -231,12 +244,37 @@ public class Controlador {
 		catalogoUsuario.updateUsuario(usuarioActual.get());
 		
 		// Actualizamos el usuario actual en el DAO
-
-
 		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
 		usuarioDAO.update(usuarioActual.get());
+		
+		// Notificamos actualizacion usuario actual
+		fireUsuarioUpdatedEvent(usuarioActual.get());
 
 		return lista;
+	}
+	
+	public void deleteLista(ListaVideos lista) {
+		if(usuarioActual.isEmpty()){
+			return; 
+		}
+		
+		// Eliminamos de la lista en el DAO
+		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
+		listaDAO.delete(lista);
+		
+		usuarioActual.get().getListasVideos().remove(lista);
+		
+		// Actualizamos el usuario actual en el catalogo
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+		
+		// Actualizamos el usuario actual en el DAO
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+		
+		// Notificamos actualizacion usuario actual
+		fireUsuarioUpdatedEvent(usuarioActual.get());
+		
 	}
 }
 

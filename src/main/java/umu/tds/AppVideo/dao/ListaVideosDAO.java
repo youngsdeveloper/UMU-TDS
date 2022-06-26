@@ -11,5 +11,6 @@ public interface ListaVideosDAO {
 	List<ListaVideos> getListaVideos();
 	ListaVideos get(int id);
 	void update(ListaVideos listaVideos);
+	void delete(ListaVideos listaVideos);
 
 }

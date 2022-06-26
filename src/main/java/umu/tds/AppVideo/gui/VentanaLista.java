@@ -75,24 +75,7 @@ public class VentanaLista extends JPanel {
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-        		
-        		
-            	listasVideo = Controlador.getInstance().getListasUsuario();	
-            	
-            	
-            	System.out.println(listasVideo);
-        		String nombresListas[] = listasVideo
-        				.stream()
-        				.map(lista -> lista.getNombre())
-        				.toArray(String[]::new);
-        		
-        		DefaultComboBoxModel<String> modelListas = new DefaultComboBoxModel<>(nombresListas);
-        		combo_listas.setModel(modelListas);
-        		
-        		
-        		if(listasVideo.size()>0) {
-            		loadLista(listasVideo.get(0));
-        		}
+            	loadListas();
             }            
         });
 		
@@ -128,7 +111,29 @@ public class VentanaLista extends JPanel {
 		combo_listas.addActionListener((ev) -> {
 			loadLista(listasVideo.get(combo_listas.getSelectedIndex()));
 		});
+		
+		// Nos subscribimos a cambios en nuevas listas
+		Controlador.getInstance().addUsuarioUpdatedListener((user) -> {
+			loadListas();
+		});
 
+	}
+	
+	private void loadListas() {
+		listasVideo = Controlador.getInstance().getListasUsuario();	
+    	
+    	String nombresListas[] = listasVideo
+				.stream()
+				.map(lista -> lista.getNombre())
+				.toArray(String[]::new);
+		
+		DefaultComboBoxModel<String> modelListas = new DefaultComboBoxModel<>(nombresListas);
+		combo_listas.setModel(modelListas);
+		
+		
+		if(listasVideo.size()>0) {
+    		loadLista(listasVideo.get(0));
+		}
 	}
 	
 	private void loadLista(ListaVideos lista) {
