@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.ListaVideosDAO;
-import umu.tds.AppVideo.dao.TDSListaVideosDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.dao.VideoDAO;
 import umu.tds.AppVideo.events.EtiquetaInsertedListener;
@@ -384,6 +383,10 @@ public class Controlador {
 		
 		
 		fireUsuarioUpdatedEvent(usuarioActual.get());
+	}
+	
+	public List<Video> getVideosMasVistos(){
+		return CatalogoVideos.getInstance().getVideosMasVistos();
 	}
 }
 

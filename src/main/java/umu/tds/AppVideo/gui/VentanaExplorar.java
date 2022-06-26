@@ -1,61 +1,41 @@
 package umu.tds.AppVideo.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-
-import com.toedter.calendar.JDateChooser;
-
-import umu.tds.AppVideo.controlador.Controlador;
-import umu.tds.AppVideo.controlador.ControladorUI;
-import umu.tds.AppVideo.dao.EtiquetaDAO;
-import umu.tds.AppVideo.dao.FactoriaDAO;
-import umu.tds.AppVideo.dao.UsuarioDAO;
-import umu.tds.AppVideo.dao.VideoDAO;
-import umu.tds.AppVideo.models.CatalogoEtiquetas;
-import umu.tds.AppVideo.models.CatalogoVideos;
-import umu.tds.AppVideo.models.Etiqueta;
-import umu.tds.AppVideo.models.Video;
-
-import java.awt.Insets;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JList;
-import java.awt.Dimension;
-import javax.swing.AbstractListModel;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.layout.FormSpecs;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.controlador.ControladorUI;
+import umu.tds.AppVideo.models.Video;
 
 public class VentanaExplorar extends JPanel {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public final static String TAG = "VentanaExplorar";
 	private JTextField txtTituloSearch;
 	

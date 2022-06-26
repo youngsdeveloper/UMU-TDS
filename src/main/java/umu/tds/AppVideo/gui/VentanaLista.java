@@ -1,32 +1,26 @@
 package umu.tds.AppVideo.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import net.miginfocom.swing.MigLayout;
-import umu.tds.AppVideo.controlador.Controlador;
-import umu.tds.AppVideo.models.ListaVideos;
-import umu.tds.AppVideo.models.Video;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-
-import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import java.awt.EventQueue;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+
+import net.miginfocom.swing.MigLayout;
 import tds.video.VideoWeb;
+import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.models.ListaVideos;
+import umu.tds.AppVideo.models.Video;
 
 public class VentanaLista extends JPanel {
 	

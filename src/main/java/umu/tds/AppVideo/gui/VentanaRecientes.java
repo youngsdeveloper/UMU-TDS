@@ -1,44 +1,37 @@
 package umu.tds.AppVideo.gui;
 
+import java.awt.FlowLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 import umu.tds.AppVideo.controlador.Controlador;
-import umu.tds.AppVideo.models.ListaVideos;
+import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import java.awt.EventQueue;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import tds.video.VideoWeb;
 
 public class VentanaRecientes extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public final static String TAG = "VentanaRecientes";
 	
 	private DefaultListModel<Video> listVideosModel;
 
-	
-	private VideoWeb videoWeb;
-	
+		
 	private JList<Video> listVideos;
 	PanelReproductor panelReproductor;
+	
+	private JLabel title_panel;
+	private JButton btnRecientes, btnMasVistos;
 	/**
 	 * Create the panel.
 	 */
@@ -51,10 +44,28 @@ public class VentanaRecientes extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 		
-		JLabel lblVideosRecientes = new JLabel("Videos recientes");
-		panel_1.add(lblVideosRecientes);
+		JPanel panel_2 = new JPanel();
+		panel_1.add(panel_2);
+		
+		title_panel = new JLabel("Videos recientes");
+		panel_2.add(title_panel);
+		
+		JPanel panel_4 = new JPanel();
+		panel_1.add(panel_4);
+		
+		btnRecientes = new JButton("Recientes");
+		panel_4.add(btnRecientes);
+		btnRecientes.addActionListener((ev)->{
+			loadRecientes();
+		});
+		
+		btnMasVistos = new JButton("Más vistos");
+		panel_4.add(btnMasVistos);
+		btnMasVistos.addActionListener((ev)->{
+			loadMasVistos();
+		});
 
 		
 		listVideosModel = new DefaultListModel<Video>();
@@ -98,11 +109,35 @@ public class VentanaRecientes extends JPanel {
 
 	}
 	
+	private void setupUI(){
+		Usuario usuarioActual = Controlador.getInstance().getUsuarioActual().get();
+		
+		if(usuarioActual.isPremium()) {
+			btnMasVistos.setEnabled(true);
+		}else {
+			btnMasVistos.setEnabled(false);
+		}
+	}
+	
+	private void loadMasVistos(){
+		btnRecientes.setEnabled(true);
+		btnMasVistos.setEnabled(false);
+		title_panel.setText("Videos más vistos");
+
+		if(listVideosModel!=null) {
+			listVideosModel.clear();		
+			listVideosModel.addAll(Controlador.getInstance().getVideosMasVistos());
+		}
+	}
+	
 	private void loadRecientes() {
+		btnRecientes.setEnabled(false);
+		title_panel.setText("Videos recientes");
 		if(listVideosModel!=null) {
 			listVideosModel.clear();		
 			listVideosModel.addAll(Controlador.getInstance().getUsuarioActual().get().getRecientes());
 		}
+		setupUI();
 	}
 	
 	private Video getSelectedVideo() {

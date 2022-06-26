@@ -3,14 +3,11 @@ package umu.tds.AppVideo.controlador;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.swing.JPanel;
 
-import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.gui.PanelReproductor;
 import umu.tds.AppVideo.gui.SingletonReproductor;
 import umu.tds.AppVideo.gui.VentanaExplorar;
@@ -38,7 +35,7 @@ public class ControladorUI {
 		cl = new CardLayout();
 		//Create the panel that contains the "cards".
 		cards = new JPanel(cl);
-		panels = new HashMap();
+		panels = new HashMap<String, JPanel>();
 		panelsLogged = new ArrayList<JPanel>(10);
 
 		setupLoginRegistro();

@@ -1,41 +1,27 @@
 package umu.tds.AppVideo.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-
-import net.miginfocom.swing.MigLayout;
-import umu.tds.AppVideo.controlador.Controlador;
-import umu.tds.AppVideo.models.ListaVideos;
-import umu.tds.AppVideo.models.Usuario;
-import umu.tds.AppVideo.models.Video;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import java.awt.EventQueue;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import tds.video.VideoWeb;
 import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import net.miginfocom.swing.MigLayout;
+import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.models.Usuario;
 
 public class VentanaPremium extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public final static String TAG = "VentanaPremium";
 	
 

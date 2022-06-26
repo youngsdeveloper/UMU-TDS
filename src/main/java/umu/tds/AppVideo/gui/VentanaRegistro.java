@@ -1,29 +1,31 @@
 package umu.tds.AppVideo.gui;
 
-import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Color;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JDateChooser;
 
 import umu.tds.AppVideo.controlador.Controlador;
 
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.util.Date;
-
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
-
 public class VentanaRegistro extends JPanel {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public final static String TAG = "VentanaRegistro";
 	private JTextField txtFieldNombre;
 	private JTextField txtFieldApellidos;

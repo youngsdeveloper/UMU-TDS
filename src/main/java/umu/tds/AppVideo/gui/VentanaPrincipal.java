@@ -1,39 +1,25 @@
 package umu.tds.AppVideo.gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Optional;
-
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import javax.swing.JPanel;
 
 import umu.tds.AppVideo.controlador.Controlador;
 import umu.tds.AppVideo.controlador.ControladorUI;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.models.Usuario;
-
-import java.awt.Component;
-import javax.swing.JButton;
-import java.awt.CardLayout;
-import java.awt.Color;
-
-import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 
 public class VentanaPrincipal {
 

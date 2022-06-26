@@ -43,7 +43,7 @@ public class Video {
 	}
 	
 	public List<Etiqueta> getEtiquetas() {
-		return new LinkedList(etiquetas); //Devolvemos copia
+		return new LinkedList<Etiqueta>(etiquetas); //Devolvemos copia
 	}
 	
 	public int getNumReproducciones() {

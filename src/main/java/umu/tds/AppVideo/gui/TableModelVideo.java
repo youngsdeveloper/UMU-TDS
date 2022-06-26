@@ -8,6 +8,10 @@ import umu.tds.AppVideo.models.Video;
 
 public class TableModelVideo extends AbstractTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	List<Video> videos;
 	
 	public TableModelVideo(List<Video> videos){

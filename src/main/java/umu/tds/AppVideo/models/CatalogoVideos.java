@@ -1,13 +1,13 @@
 package umu.tds.AppVideo.models;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import umu.tds.AppVideo.dao.FactoriaDAO;
-import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.dao.VideoDAO;
-import umu.tds.AppVideo.seeders.EtiquetaSeeder;
 import umu.tds.AppVideo.seeders.VideoSeeder;
 
 public class CatalogoVideos {
@@ -57,7 +57,17 @@ public class CatalogoVideos {
 	
 	public LinkedList<Video> getVideos() {
 		return new LinkedList<Video>(videos.values());
-	}	
+	}
+	
+	public List<Video> getVideosMasVistos() {
+		List<Video> vids = new LinkedList<Video>(videos.values());
+		vids = vids
+				.stream()
+				.sorted(Comparator.comparingInt(Video::getNumReproducciones).reversed())
+				.limit(10)
+				.collect(Collectors.toList());
+		return vids;
+	}
 	
 	public void addVideo(Video video) {
 		videos.put(video.getVideoID(), video);

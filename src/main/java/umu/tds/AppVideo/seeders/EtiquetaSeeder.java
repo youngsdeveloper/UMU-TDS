@@ -1,6 +1,5 @@
 package umu.tds.AppVideo.seeders;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -9,7 +8,6 @@ import java.util.stream.Collectors;
 
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
-import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.Etiqueta;
 
 public class EtiquetaSeeder {

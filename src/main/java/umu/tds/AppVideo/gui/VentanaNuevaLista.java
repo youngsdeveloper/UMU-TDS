@@ -1,18 +1,6 @@
 package umu.tds.AppVideo.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import net.miginfocom.swing.MigLayout;
-import umu.tds.AppVideo.controlador.Controlador;
-import umu.tds.AppVideo.models.CatalogoVideos;
-import umu.tds.AppVideo.models.ListaVideos;
-import umu.tds.AppVideo.models.Video;
-
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +9,19 @@ import java.util.Optional;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Rectangle;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
+import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.models.ListaVideos;
+import umu.tds.AppVideo.models.Video;
 
 public class VentanaNuevaLista extends JPanel {
 	

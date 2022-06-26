@@ -1,16 +1,12 @@
 package umu.tds.AppVideo.seeders;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.VideoDAO;
-import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.Video;
 

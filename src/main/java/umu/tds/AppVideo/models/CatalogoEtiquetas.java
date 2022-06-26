@@ -6,7 +6,6 @@ import java.util.List;
 
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
-import umu.tds.AppVideo.dao.UsuarioDAO;
 import umu.tds.AppVideo.seeders.EtiquetaSeeder;
 
 public class CatalogoEtiquetas {

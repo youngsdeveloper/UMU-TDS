@@ -1,7 +1,6 @@
 package umu.tds.AppVideo.dao;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,8 +9,6 @@ import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 import umu.tds.AppVideo.models.Etiqueta;
-import umu.tds.AppVideo.models.ListaVideos;
-import umu.tds.AppVideo.models.Usuario;
 
 public class TDSEtiquetaDAO implements EtiquetaDAO{
 

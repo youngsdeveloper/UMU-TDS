@@ -1,8 +1,6 @@
 package umu.tds.AppVideo.dao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,9 +12,7 @@ import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
-import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.Etiqueta;
-import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
 
 public class TDSVideoDAO implements VideoDAO{
