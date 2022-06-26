@@ -103,6 +103,7 @@ public class VentanaExplorar extends JPanel {
 			}
 		});
 		
+		listEtiquetasSeleccionadas = new JList();
 		listEtiquetasSeleccionadas.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -233,6 +234,7 @@ public class VentanaExplorar extends JPanel {
 				.map(etiqueta -> etiqueta.getNombre())
 				.toArray(String[]::new);
 		
+		
 		listEtiquetasDisponibles.setModel(new AbstractListModel() {
 			String[] values = valuesEtiquetas;
 			public int getSize() {
@@ -243,7 +245,6 @@ public class VentanaExplorar extends JPanel {
 			}
 		});
 		
-		listEtiquetasSeleccionadas = new JList();
 	}
 
 }

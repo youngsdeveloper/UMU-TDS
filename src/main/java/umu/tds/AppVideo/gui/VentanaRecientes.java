@@ -135,7 +135,7 @@ public class VentanaRecientes extends JPanel {
 		title_panel.setText("Videos recientes");
 		if(listVideosModel!=null) {
 			listVideosModel.clear();		
-			listVideosModel.addAll(Controlador.getInstance().getUsuarioActual().get().getRecientes());
+			listVideosModel.addAll(Controlador.getInstance().getVideosRecientes());
 		}
 		setupUI();
 	}

@@ -77,10 +77,6 @@ public class Video {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((etiquetas == null) ? 0 : etiquetas.hashCode());
-		result = prime * result + id;
-		result = prime * result + numReproducciones;
-		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
 		result = prime * result + ((videoID == null) ? 0 : videoID.hashCode());
 		return result;
 	}
@@ -95,20 +91,6 @@ public class Video {
 		if (getClass() != obj.getClass())
 			return false;
 		Video other = (Video) obj;
-		if (etiquetas == null) {
-			if (other.etiquetas != null)
-				return false;
-		} else if (!etiquetas.equals(other.etiquetas))
-			return false;
-		if (id != other.id)
-			return false;
-		if (numReproducciones != other.numReproducciones)
-			return false;
-		if (titulo == null) {
-			if (other.titulo != null)
-				return false;
-		} else if (!titulo.equals(other.titulo))
-			return false;
 		if (videoID == null) {
 			if (other.videoID != null)
 				return false;
@@ -116,6 +98,8 @@ public class Video {
 			return false;
 		return true;
 	}
+
+
 	
 	
 	

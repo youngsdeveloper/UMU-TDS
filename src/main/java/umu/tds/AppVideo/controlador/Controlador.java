@@ -388,6 +388,19 @@ public class Controlador {
 	public List<Video> getVideosMasVistos(){
 		return CatalogoVideos.getInstance().getVideosMasVistos();
 	}
+	
+	public List<Video> getVideosRecientes(){
+		if(usuarioActual.isEmpty()){
+			return null; 
+		}
+		
+		return usuarioActual
+				.get()
+				.getRecientes()
+				.stream()
+				.distinct()
+				.collect(Collectors.toList());
+	}
 }
 
 
