@@ -104,7 +104,15 @@ public class Usuario {
 	}
 	
 	public void addVideoToRecientes(Video v) {
+		
+		// Delete other recents vids
+		if(this.recientes.contains(v)) {
+			this.recientes.remove(this.recientes.indexOf(v));
+		}
+		
 		this.recientes.add(0,v); //add to start
+		
+		// Max 10 recientes
 		if(this.recientes.size()>10) {
 			this.recientes.remove(this.recientes.size()-1);
 		}
