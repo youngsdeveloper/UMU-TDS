@@ -148,7 +148,7 @@ public class PanelReproductor extends JPanel {
 		reproductor.playVideo(video.getURL());
 		
 		label_titulo_video.setText(video.getTitulo());
-		lbl_num_reproducciones.setVisible(true);
+		label_titulo_video.setVisible(true);
 
 		
 		listEtiquetas.setVisible(true);
