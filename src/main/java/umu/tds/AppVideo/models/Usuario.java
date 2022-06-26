@@ -92,7 +92,7 @@ public class Usuario {
 	}
 	
 	public List<ListaVideos> getListasVideos() {
-		return listasVideos;
+		return new LinkedList<ListaVideos>(listasVideos);
 	}
 	
 	public void setListasVideos(List<ListaVideos> listasVideos) {
@@ -101,6 +101,13 @@ public class Usuario {
 	
 	public void addListaToListaVideos(ListaVideos lista) {
 		this.listasVideos.add(lista);
+	}
+	
+	public void addVideoToListaVideos(Video v, ListaVideos lista){
+		
+		int index = this.listasVideos.indexOf(lista);
+		this.listasVideos.get(index).insertarVideo(v);
+		
 	}
 	
 	public void addVideoToRecientes(Video v) {

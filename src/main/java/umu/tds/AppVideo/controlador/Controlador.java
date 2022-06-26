@@ -249,14 +249,13 @@ public class Controlador {
 			return null; 
 		}
 		
-		lista.insertarVideo(video);
+		usuarioActual.get().addVideoToListaVideos(video, lista);
+
 		
 		// Insertamos la lista en el DAO
 		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
 		listaDAO.update(lista);
 		
-		int index = usuarioActual.get().getListasVideos().indexOf(lista);
-		usuarioActual.get().getListasVideos().set(index, lista);
 		
 		// Actualizamos el usuario actual en el catalogo
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
@@ -281,6 +280,7 @@ public class Controlador {
 		// Insertamos la lista en el DAO
 		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
 		listaDAO.update(lista);
+		
 		
 		int index = usuarioActual.get().getListasVideos().indexOf(lista);
 		usuarioActual.get().getListasVideos().set(index, lista);
