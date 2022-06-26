@@ -1,6 +1,7 @@
 package umu.tds.AppVideo.gui;
 
 import java.awt.FlowLayout;
+import java.util.Optional;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -16,6 +17,7 @@ import umu.tds.AppVideo.controlador.Controlador.Environment;
 import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.Video;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 
 public class PanelReproductor extends JPanel {
@@ -28,7 +30,6 @@ public class PanelReproductor extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 
-	private JTextField textField;
 
 	
 	private JPanel panel_reproductor;
@@ -38,6 +39,13 @@ public class PanelReproductor extends JPanel {
 	private JLabel lbl_num_reproducciones;
 	private DefaultListModel<Etiqueta> modelEtiquetas;
 	
+	private JButton btn_crear_etiqueta;
+	private JTextField text_crear_etiqueta;
+	
+	private Optional<Video> video = Optional.empty();
+	
+	private boolean hasToAddToRecentes = true; // Can set to false
+
 	/**
 	 * Create the panel.
 	 */
@@ -85,22 +93,48 @@ public class PanelReproductor extends JPanel {
 		JLabel lblNewLabel_2 = new JLabel("Nueva etiqueta: ");
 		panel_3.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		panel_3.add(textField);
-		textField.setColumns(10);
+		text_crear_etiqueta = new JTextField();
+		panel_3.add(text_crear_etiqueta);
+		text_crear_etiqueta.setColumns(10);
+		text_crear_etiqueta.addActionListener((a) -> {
+			insertarEtiqueta();
+		});
 		
-		JButton btnNewButton = new JButton("Añadir");
-		panel_3.add(btnNewButton);
-		System.out.println(Controlador.getInstance().env);
+		btn_crear_etiqueta = new JButton("Añadir");
+		panel_3.add(btn_crear_etiqueta);
+		
+		btn_crear_etiqueta.setEnabled(false);
+		
+		btn_crear_etiqueta.addActionListener((a)->{
+			insertarEtiqueta();
+		});
+		
+		
+		
+		
 
-
-		if(Controlador.getInstance().env != Environment.WBUILDER) {
+		// Necesario para poder editar en WBuilder
+		/*if(Controlador.getInstance().env != Environment.WBUILDER) {
 			configurarReproductor();
-		}
+
+		}else {
+			System.out.println("Conf rup");
+
+		}*/
+		configurarReproductor();
+
 
 	}
 	
+	public void setHasToAddToRecentes(boolean hasToAddToRecentes) {
+		this.hasToAddToRecentes = hasToAddToRecentes;
+	}
+	
 	public void loadVideo(Video video) {
+		
+		reproductor = SingletonReproductor.getInstance();
+		panel_reproductor.add(reproductor);
+		
 		reproductor.playVideo(video.getURL());
 		
 		label_titulo_video.setText(video.getTitulo());
@@ -108,12 +142,52 @@ public class PanelReproductor extends JPanel {
 		
 		modelEtiquetas.clear();
 		modelEtiquetas.addAll(video.getEtiquetas());
+		
+		btn_crear_etiqueta.setEnabled(true);
+		
+		this.video = Optional.of(video);
+		
+		if(hasToAddToRecentes) {
+			Controlador.getInstance().addVideoRecientes(video);
+		}
 	}
 	
 
 	private void configurarReproductor() {
-		reproductor = SingletonReproductor.getInstance();
-		panel_reproductor.add(reproductor);
+		System.out.println("Configurando reproductor...");
+		
+	}
+	
+	private void insertarEtiqueta() {
+		
+		if(text_crear_etiqueta.getText().isEmpty())
+			return;
+		
+		if(video.isEmpty())
+			return;
+		
+		Video video = this.video.get();
+		
+		String name_etiqueta = text_crear_etiqueta.getText();
+		Etiqueta etiqueta = new Etiqueta(name_etiqueta);
+		
+		if(video.getEtiquetas().contains(etiqueta)) {
+			// Video contiene etiqueta ya, no se puede.
+			JOptionPane.showMessageDialog(this, "El video ya tiene esa etiqueta asignada.", "Ups...", JOptionPane.ERROR_MESSAGE);
+
+			return;
+		}
+		
+		video = Controlador.getInstance().insertarEtiquetaVideo(etiqueta, video);
+		this.video = Optional.of(video);
+		
+		video.insertEtiqueta(etiqueta);
+
+		modelEtiquetas.clear();
+		modelEtiquetas.addAll(video.getEtiquetas());
+		
+		text_crear_etiqueta.setText(""); // Reset text
+		
 	}
 
 }

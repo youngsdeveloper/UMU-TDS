@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
@@ -37,14 +39,17 @@ public class EtiquetaSeeder {
 		etiquetaDAO.clearAll();
 	}
 	
-	public List<Etiqueta> getSomeEtiquetas() {
+	public Set<Etiqueta> getSomeEtiquetas() {
 		List<Etiqueta> etiquetas = etiquetaDAO.getEtiquetas();
         Collections.shuffle(etiquetas);
         
         Random random = new Random();
         int last_index = random.ints(1, etiquetas.size()-2).findFirst().getAsInt();
         
-        return etiquetas.subList(0, last_index);
+        
+        
+        List<Etiqueta> subList = etiquetas.subList(0, last_index);
+        return subList.stream().collect(Collectors.toSet());
 	}
 	
 	public void seedEtiquetas(){

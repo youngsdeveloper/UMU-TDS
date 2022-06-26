@@ -35,16 +35,20 @@ public class CatalogoVideos {
 		VideoDAO videoDAO = FactoriaDAO.getInstance().getVideoDAO();
 		List<Video> vids = videoDAO.getVideos();
 
-		if(vids.size()==0) {
+		if(vids.isEmpty()) {
+			
+			CatalogoEtiquetas.getInstance(); // Force seed etiquetas
+			
 			VideoSeeder.getInstance().clearVideos();
 			VideoSeeder.getInstance().seedVideos();
 			// SOLO TESTING CREAR PRIMERA VEZ
+			vids = videoDAO.getVideos();
+
 		}
 		
 		
 		
 
-		vids = videoDAO.getVideos();
 		for (Video video:vids) {
 			videos.put(video.getVideoID(), video);
 		}
@@ -61,6 +65,10 @@ public class CatalogoVideos {
 	
 	public Video getUsuario(String videoID) {
 		return videos.get(videoID);
+	}
+	
+	public void updateVideo(Video video) {
+		videos.put(video.getVideoID(), video);
 	}
 
 }

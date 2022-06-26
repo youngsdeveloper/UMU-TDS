@@ -1,6 +1,8 @@
 package umu.tds.AppVideo.models;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class Video {
 	
@@ -8,12 +10,12 @@ public class Video {
 	private int id;
 	
 	private String titulo;
-	private List<Etiqueta> etiquetas;
+	private Set<Etiqueta> etiquetas;
 	private String videoID;
 	private int numReproducciones;
 	
 	// Constructor
-	public Video(String titulo, List<Etiqueta> etiquetas, String videoID, int numReproducciones) {
+	public Video(String titulo, Set<Etiqueta> etiquetas, String videoID, int numReproducciones) {
 		this.id=0;
 		this.titulo = titulo;
 		this.etiquetas = etiquetas;
@@ -21,6 +23,10 @@ public class Video {
 		this.numReproducciones = numReproducciones;
 	}
 	
+	
+	public void insertEtiqueta(Etiqueta etiqueta) {
+		this.etiquetas.add(etiqueta);		
+	}
 	
 	// Getters & Setters
 	
@@ -37,7 +43,7 @@ public class Video {
 	}
 	
 	public List<Etiqueta> getEtiquetas() {
-		return etiquetas;
+		return new LinkedList(etiquetas); //Devolvemos copia
 	}
 	
 	public int getNumReproducciones() {

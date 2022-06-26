@@ -164,6 +164,9 @@ public class VentanaPrincipal {
 		panel_3.add(btnMisListas);
 		
 		btnRecientes = new JButton("Recientes");
+		btnRecientes.addActionListener((ev) -> {
+			ControladorUI.getInstance().goToRecientes();
+		});
 		panel_3.add(btnRecientes);
 		
 		btnNuevaLista = new JButton("Nueva lista");
@@ -183,7 +186,7 @@ public class VentanaPrincipal {
 						updateUIlogin();
 						
 						ControladorUI.getInstance().setupLogged();
-						ControladorUI.getInstance().goToExplorar();
+						ControladorUI.getInstance().goToRecientes();
 		            }
 		        });
 			}

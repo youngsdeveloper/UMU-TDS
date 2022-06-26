@@ -1,10 +1,14 @@
 package umu.tds.AppVideo.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import beans.Entidad;
 import beans.Propiedad;
@@ -67,9 +71,9 @@ public class TDSVideoDAO implements VideoDAO{
 		return eVideo;
 	}
 	
-	private List<Etiqueta> obtenerEtiquetasCodigos(String etiquetas_str){
+	private Set<Etiqueta> obtenerEtiquetasCodigos(String etiquetas_str){
 		
-		List<Etiqueta> etiquetas = new LinkedList<Etiqueta>();
+		Set<Etiqueta> etiquetas = new HashSet<Etiqueta>();
 		if(etiquetas_str==null) {
 			return etiquetas;
 		}
@@ -139,6 +143,34 @@ public class TDSVideoDAO implements VideoDAO{
 	@Override
 	public Video getVideo(int id){
 		return entidadToVideo(servPersistencia.recuperarEntidad(id));
+	}
+	
+	@Override
+	public void insertEtiqueta(Video video, Etiqueta etiqueta) {
+		Entidad eVideo = servPersistencia.recuperarEntidad(video.getId());
+		
+		
+		for(Propiedad propiedad:eVideo.getPropiedades()) {
+			if(propiedad.getNombre().equals(ETIQUETAS)) {
+				
+				
+				String etiquetas = propiedad.getValor();
+						
+
+				Set<Etiqueta> etiquetas_list = obtenerEtiquetasCodigos(etiquetas).stream().collect(Collectors.toSet());
+				etiquetas_list.add(etiqueta);
+				
+				String new_etiquetas = obtenerCodigosEtiquetas(etiquetas_list.stream().collect(Collectors.toList()));
+
+				propiedad.setValor(new_etiquetas);
+				
+				servPersistencia.modificarPropiedad(propiedad);
+
+			}
+		}
+		
+		
+		
 	}
 
 	

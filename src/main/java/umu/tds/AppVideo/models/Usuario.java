@@ -1,5 +1,6 @@
 package umu.tds.AppVideo.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,8 @@ public class Usuario {
 	private String username;
 	private String password;
 	private List<ListaVideos> listasVideos;
-	
+	private List<Video> recientes;
+
 	//Constructor
 	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password) {
 		this.id = 0;
@@ -25,7 +27,8 @@ public class Usuario {
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.listasVideos = new LinkedList<ListaVideos>();
+		this.listasVideos = new ArrayList<ListaVideos>(10);
+		this.recientes = new LinkedList<Video>(); 
 	}
 	
 	// Getters & Setteres
@@ -97,13 +100,30 @@ public class Usuario {
 	public void addListaToListaVideos(ListaVideos lista) {
 		this.listasVideos.add(lista);
 	}
+	
+	public void addVideoToRecientes(Video v) {
+		this.recientes.add(0,v); //add to start
+		if(this.recientes.size()>10) {
+			this.recientes.remove(this.recientes.size()-1);
+		}
+	}
+	
+	public List<Video> getRecientes() {
+		return new LinkedList<>(recientes);
+	}
+	
+	public void setRecientes(List<Video> recientes) {
+		this.recientes = recientes;
+	}
 
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento="
 				+ fechaNacimiento + ", email=" + email + ", username=" + username + ", password=" + password
-				+ ", listasVideos=" + listasVideos + "]";
+				+ ", listasVideos=" + listasVideos + ", recientes=" + recientes + "]";
 	}
+
+	
 	
 	
 	

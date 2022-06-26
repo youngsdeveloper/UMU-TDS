@@ -2,6 +2,7 @@ package umu.tds.AppVideo.dao;
 
 import java.util.List;
 
+import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.Video;
 
 public interface VideoDAO {
@@ -9,4 +10,7 @@ public interface VideoDAO {
 	List<Video> getVideos();
 	Video getVideo(int id);
 	void clearAll();
+	
+	void insertEtiqueta(Video video, Etiqueta etiqueta);
+	
 }

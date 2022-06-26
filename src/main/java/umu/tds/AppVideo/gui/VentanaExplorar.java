@@ -63,6 +63,8 @@ public class VentanaExplorar extends JPanel {
 
 	
 	private JList listEtiquetasSeleccionadas;
+	
+	private JList listEtiquetasDisponibles;
 	private JTable tableVideos;
 	
 	private JButton btnNuevaBusqueda;
@@ -101,28 +103,14 @@ public class VentanaExplorar extends JPanel {
 		
 		
 	
-
-		String[] valuesEtiquetas = Controlador
-				.getInstance()
-				.getEtiquetas()
-				.stream()
-				.map(etiqueta -> etiqueta.getNombre())
-				.toArray(String[]::new);
+		listEtiquetasDisponibles = new JList();
+	
+		updateEtiquetasDisponibles();
 		
-		
-		final JList listEtiquetasDisponibles = new JList();
-		listEtiquetasDisponibles.setModel(new AbstractListModel() {
-			String[] values = valuesEtiquetas;
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
+		Controlador.getInstance().addEtiquetaInsertedListener((e)->{
+			updateEtiquetasDisponibles();
 		});
 		
-		listEtiquetasSeleccionadas = new JList();
-
 		
 		listEtiquetasDisponibles.addListSelectionListener(new ListSelectionListener() {
 			
@@ -254,6 +242,28 @@ public class VentanaExplorar extends JPanel {
 				return values[index];
 			}
 		});
+	}
+	
+	private void updateEtiquetasDisponibles() {
+
+		String[] valuesEtiquetas = Controlador
+				.getInstance()
+				.getEtiquetas()
+				.stream()
+				.map(etiqueta -> etiqueta.getNombre())
+				.toArray(String[]::new);
+		
+		listEtiquetasDisponibles.setModel(new AbstractListModel() {
+			String[] values = valuesEtiquetas;
+			public int getSize() {
+				return values.length;
+			}
+			public Object getElementAt(int index) {
+				return values[index];
+			}
+		});
+		
+		listEtiquetasSeleccionadas = new JList();
 	}
 
 }

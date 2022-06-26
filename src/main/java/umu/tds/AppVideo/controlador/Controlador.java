@@ -9,10 +9,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.ListaVideosDAO;
 import umu.tds.AppVideo.dao.TDSListaVideosDAO;
 import umu.tds.AppVideo.dao.UsuarioDAO;
+import umu.tds.AppVideo.dao.VideoDAO;
+import umu.tds.AppVideo.events.EtiquetaInsertedListener;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.events.UsuarioUpdatedListener;
 import umu.tds.AppVideo.models.CatalogoEtiquetas;
@@ -32,15 +35,17 @@ public class Controlador {
 	private static Controlador instance = null;
 	private Optional<Usuario> usuarioActual;
 	
-	// Evento onUsuarioLogged
+	// Listeners
 	
 	private List<UsuarioLoggedListener> usuarioLoggedListeners;
 	private List<UsuarioUpdatedListener> usuarioUpdatedListeners;
+	private List<EtiquetaInsertedListener> etiquetaInsertedListeners;
 
 	private Controlador() {
 		usuarioActual = Optional.empty();
 		usuarioLoggedListeners = new LinkedList<UsuarioLoggedListener>();
 		usuarioUpdatedListeners = new LinkedList<UsuarioUpdatedListener>();
+		etiquetaInsertedListeners = new LinkedList<EtiquetaInsertedListener>();
 	}
 
 	public static Controlador getInstance() {
@@ -80,6 +85,8 @@ public class Controlador {
 		return Optional.of(usuario);
 	}
 	
+	
+	//Eventos
 	public void addUsuarioLoggedListener(UsuarioLoggedListener listener){
 		this.usuarioLoggedListeners.add(listener);
 	}
@@ -105,6 +112,17 @@ public class Controlador {
 			l.onUsuarioUpdated(u);
 		}
 	}
+	
+	public void addEtiquetaInsertedListener(EtiquetaInsertedListener listener){
+		this.etiquetaInsertedListeners.add(listener);
+	}
+	
+	private void fireEtiquetaInsertedEvent(Etiqueta e){
+		for(EtiquetaInsertedListener l:etiquetaInsertedListeners) {
+			l.onNewEtiqueta(e);
+		}
+	}
+	//Fin eventos
 	
 	public boolean loginUsuario(String username, String password) {
 		
@@ -273,6 +291,69 @@ public class Controlador {
 		usuarioDAO.update(usuarioActual.get());
 		
 		// Notificamos actualizacion usuario actual
+		fireUsuarioUpdatedEvent(usuarioActual.get());
+		
+	}
+	
+	public Video insertarEtiquetaVideo(Etiqueta etiqueta, Video video){
+		
+		
+		if(video.getEtiquetas().contains(etiqueta))
+			return null; //No añadir misma etiqueta 2 veces.
+		
+		EtiquetaDAO etiquetaDAO = FactoriaDAO.getInstance().getEtiquetaDAO();
+		
+		
+		List<Etiqueta> etiquetas = etiquetaDAO.getEtiquetas();
+		
+		Etiqueta new_etiqueta; 
+		if(etiquetas.contains(etiqueta)) {
+			// Si existe la etiqueta, usar.
+			
+			
+			new_etiqueta = etiquetas.get(etiquetas.indexOf(etiqueta));
+		
+			
+		}else {
+			// Crear etiqueta y luego usar.
+			
+			CatalogoEtiquetas.getInstance().addEtiqueta(etiqueta);
+			
+			new_etiqueta = etiquetaDAO.create(etiqueta);
+			fireEtiquetaInsertedEvent(new_etiqueta);
+		}
+		
+		VideoDAO videoDAO = FactoriaDAO.getInstance().getVideoDAO();
+		videoDAO.insertEtiqueta(video, etiqueta);
+		
+
+		video.insertEtiqueta(new_etiqueta);
+		
+		CatalogoVideos.getInstance().updateVideo(video);
+		
+		return video;
+		
+	}
+	
+		
+	public void addVideoRecientes(Video video){
+			
+	
+		if(usuarioActual.isEmpty()){
+			return; 
+		}
+		
+		usuarioActual.get().addVideoToRecientes(video);
+		
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+
+		
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+		
+		System.out.println(usuarioActual.get());
+		
 		fireUsuarioUpdatedEvent(usuarioActual.get());
 		
 	}

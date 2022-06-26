@@ -27,17 +27,23 @@ public class CatalogoEtiquetas {
 	private CatalogoEtiquetas() {
 		
 
-		// SOLO TESTING
-		// LLAMAR AL SEEDER DE ETIQUETAS PARA QUE CREE LAS ETIQUETAS (reseteadas a 0)
-		EtiquetaSeeder.getInstance().clearEtiquetas();
-		EtiquetaSeeder.getInstance().seedEtiquetas();
-		// SOLO TESTING
 		
-		etiquetas = new HashMap<Integer, Etiqueta>();
-				
 		EtiquetaDAO etiquetaDAO = FactoriaDAO.getInstance().getEtiquetaDAO();
 		
 		List<Etiqueta> etqs = etiquetaDAO.getEtiquetas();
+
+		
+		if(etqs.isEmpty()) {
+			// LLAMAR AL SEEDER DE ETIQUETAS PARA QUE CREE LAS ETIQUETAS (reseteadas a 0)
+			EtiquetaSeeder.getInstance().clearEtiquetas();
+			EtiquetaSeeder.getInstance().seedEtiquetas();
+			etqs = etiquetaDAO.getEtiquetas();
+		}
+		
+		
+		
+		etiquetas = new HashMap<Integer, Etiqueta>();
+				
 		for (Etiqueta etiqueta:etqs) {
 			etiquetas.put(etiqueta.getId(), etiqueta);
 		}

@@ -30,10 +30,11 @@ public class TDSEtiquetaDAO implements EtiquetaDAO{
 	}
 	
 	@Override
-	public void create(Etiqueta etiqueta) {
+	public Etiqueta create(Etiqueta etiqueta) {
 		Entidad entidadEtiqueta = etiquetaToEntidad(etiqueta);
 		entidadEtiqueta = servPersistencia.registrarEntidad(entidadEtiqueta);
 		etiqueta.setId(entidadEtiqueta.getId());
+		return etiqueta;
 	}
 	
 	// Metodos auxiliares
