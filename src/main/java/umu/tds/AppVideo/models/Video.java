@@ -1,5 +1,6 @@
 package umu.tds.AppVideo.models;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,14 @@ public class Video {
 		this.etiquetas = etiquetas;
 		this.videoID = videoID;
 		this.numReproducciones = numReproducciones;
+	}
+	
+	public Video(String titulo,String videoID) {
+		this.id=0;
+		this.titulo = titulo;
+		this.etiquetas = new HashSet<Etiqueta>();
+		this.videoID = videoID;
+		this.numReproducciones = 0;
 	}
 	
 	

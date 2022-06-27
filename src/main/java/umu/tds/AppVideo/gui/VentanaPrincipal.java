@@ -6,12 +6,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.io.File;
 import java.util.Optional;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,6 +22,7 @@ import umu.tds.AppVideo.controlador.Controlador;
 import umu.tds.AppVideo.controlador.ControladorUI;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.models.Usuario;
+import pulsador.Luz;
 
 public class VentanaPrincipal {
 
@@ -64,6 +67,7 @@ public class VentanaPrincipal {
 
 
 	private JLabel txtUserName;
+	private Luz pulsador;
 	
 	/**
 	 * Initialize the contents of the frame.
@@ -83,6 +87,9 @@ public class VentanaPrincipal {
 		JLabel lblAppvideologo = new JLabel("");
 		lblAppvideologo.setIcon(new ImageIcon(VentanaPrincipal.class.getResource("/umu/tds/AppVideo/images/logo-100.png")));
 		panel.add(lblAppvideologo);
+		
+		pulsador = new Luz();
+		panel.add(pulsador);
 		
 		panel.add(Box.createRigidArea(new Dimension(30,40)));
 		
@@ -165,6 +172,12 @@ public class VentanaPrincipal {
 		panel_3.add(btnNuevaLista);
 		
 
+		pulsador.addEncendidoListener(el -> {
+
+			cargarVideos();
+		});
+		
+		pulsador.setColor(Color.YELLOW);
 		
 		Controlador.getInstance().addUsuarioLoggedListener(new UsuarioLoggedListener() {
 			@Override
@@ -244,6 +257,8 @@ public class VentanaPrincipal {
 			}else {
 				btnPremium.setForeground(Color.RED);
 			}
+			
+			pulsador.setVisible(true);
 		}else {
 			
 			txtUserName.setText("Desconectado");
@@ -259,9 +274,32 @@ public class VentanaPrincipal {
 			btnNuevaLista.setEnabled(false);
 			
 			btnPremium.setForeground(Color.LIGHT_GRAY);
+			pulsador.setVisible(false);
 
 
 		}
+	}
+	
+	private void cargarVideos() {
+		
+		
+		abrirFileChooser();
+	}
+	
+	private void abrirFileChooser() {
+		JFileChooser fileChooser = new JFileChooser();
+	    fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+	    
+
+	    int result = fileChooser.showOpenDialog(fileChooser);
+
+	    if (result != JFileChooser.CANCEL_OPTION) {
+
+	        File file = fileChooser.getSelectedFile();
+	        Controlador.getInstance().cargarVideos(file);
+
+	        
+	    }
 	}
 	
 

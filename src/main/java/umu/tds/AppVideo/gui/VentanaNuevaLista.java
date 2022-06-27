@@ -184,7 +184,10 @@ public class VentanaNuevaLista extends JPanel {
 		panel_10.add(btnAceptar);
 		
 	
-		
+		Controlador.getInstance().addVideosInsertedListener(() -> {
+			List<Video> vs = Controlador.getInstance().getVideos();
+			tableVideos.setModel(new TableModelVideo(vs));
+		});
 
 	}
 	

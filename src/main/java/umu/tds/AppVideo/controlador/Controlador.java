@@ -1,5 +1,6 @@
 package umu.tds.AppVideo.controlador;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import umu.tds.AppVideo.adapters.VideoAdapter;
 import umu.tds.AppVideo.dao.EtiquetaDAO;
 import umu.tds.AppVideo.dao.FactoriaDAO;
 import umu.tds.AppVideo.dao.ListaVideosDAO;
@@ -17,6 +19,7 @@ import umu.tds.AppVideo.dao.VideoDAO;
 import umu.tds.AppVideo.events.EtiquetaInsertedListener;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.events.UsuarioUpdatedListener;
+import umu.tds.AppVideo.events.VideosInsertedListener;
 import umu.tds.AppVideo.filtros.FactoriaFiltro;
 import umu.tds.AppVideo.filtros.Filtro;
 import umu.tds.AppVideo.filtros.FiltroType;
@@ -28,6 +31,8 @@ import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
 import umu.tds.AppVideo.pdf.FactoriaPDF;
+import umu.tds.componente.ComponenteBuscadorVideos;
+import umu.tds.componente.VideoEvent;
 
 public class Controlador {
 
@@ -43,6 +48,7 @@ public class Controlador {
 	private List<UsuarioLoggedListener> usuarioLoggedListeners;
 	private List<UsuarioUpdatedListener> usuarioUpdatedListeners;
 	private List<EtiquetaInsertedListener> etiquetaInsertedListeners;
+	private List<VideosInsertedListener> videosInsertedListeners;
 
 	private Controlador() {
 		usuarioActual = Optional.empty();
@@ -123,6 +129,16 @@ public class Controlador {
 	private void fireEtiquetaInsertedEvent(Etiqueta e){
 		for(EtiquetaInsertedListener l:etiquetaInsertedListeners) {
 			l.onNewEtiqueta(e);
+		}
+	}
+	
+	public void addVideosInsertedListener(VideosInsertedListener listener){
+		this.videosInsertedListeners.add(listener);
+	}
+	
+	private void fireVideosInsertedEvent(){
+		for(VideosInsertedListener l:videosInsertedListeners) {
+			l.onNewVideos();
 		}
 	}
 	//Fin eventos
@@ -465,6 +481,40 @@ public class Controlador {
 		fireUsuarioUpdatedEvent(usuarioActual.get());
 
 	
+	}
+	
+	public void addVideo(Video v) {
+		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
+		catalogoVideos.addVideo(v);
+		
+		VideoDAO videoDAO = FactoriaDAO.getInstance().getVideoDAO();
+		videoDAO.create(v);
+		
+		
+	}
+	
+	public void cargarVideos(File file){
+		
+		ComponenteBuscadorVideos buscarVideos = new ComponenteBuscadorVideos();
+		
+		buscarVideos.addVideosListener(vl -> {
+			VideoEvent vE = (VideoEvent)vl;
+			
+
+
+			
+			for(umu.tds.componente.Video v:vE.getNewVideos().getVideo()) {
+
+				VideoAdapter vAdapter = new VideoAdapter(v);
+				addVideo(vAdapter.getVideo());
+				
+			}
+			
+			fireVideosInsertedEvent();
+		});
+		
+		buscarVideos.setArchivoVideos(file);
+		
 	}
 	
 	

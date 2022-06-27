@@ -159,6 +159,11 @@ public class VentanaExplorar extends JPanel {
 		add(lblBuscarEtiquetas, "cell 1 3");
 		
 		add(listEtiquetasSeleccionadas, "cell 1 4,grow");
+		
+		Controlador.getInstance().addVideosInsertedListener(() -> {
+			List<Video> vs = Controlador.getInstance().getVideos();
+			tableVideos.setModel(new TableModelVideo(vs));
+		});
 
 	}
 	

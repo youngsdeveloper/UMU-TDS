@@ -35,5 +35,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="itextpdf-5.4.1.jar"/>
+	<classpathentry kind="lib" path="Luz.jar"/>
+	<classpathentry kind="lib" path="CargadorVideos.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
