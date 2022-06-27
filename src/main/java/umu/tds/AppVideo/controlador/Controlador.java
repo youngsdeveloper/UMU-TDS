@@ -24,6 +24,7 @@ import umu.tds.AppVideo.models.Etiqueta;
 import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
+import umu.tds.AppVideo.pdf.FactoriaPDF;
 
 public class Controlador {
 
@@ -429,6 +430,15 @@ public class Controlador {
 				.stream()
 				.distinct()
 				.collect(Collectors.toList());
+	}
+	
+	public void generarPDF(){
+		if(usuarioActual.isEmpty()){
+			return; 
+		}
+		
+		
+		FactoriaPDF.getInstance().getListVideoPDF().create(usuarioActual.get());
 	}
 }
 

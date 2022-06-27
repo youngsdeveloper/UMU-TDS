@@ -157,7 +157,7 @@ public class VentanaLogin extends JPanel {
 		
 
 		checkButtonLoginEnabled();
-		// autoLoginTest(); Autologin, solo testing.
+		autoLoginTest(); //Autologin, solo testing.
 
 	}
 	
