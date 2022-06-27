@@ -40,5 +40,6 @@ public abstract class FactoriaFiltro {
 	// Metodos factoria para obtener adaptadores
 	public abstract FiltroNoFiltro getNoFiltro();	
 	public abstract FiltroMisListas getFiltroMisListas();	
+	public abstract FiltroImpopulares getFiltroImpopulares();	
 
 }

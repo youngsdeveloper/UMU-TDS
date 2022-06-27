@@ -12,4 +12,9 @@ public final class FactoriaFiltroTDS extends FactoriaFiltro {
 		return new FiltroMisListas();
 	}
 
+	@Override
+	public FiltroImpopulares getFiltroImpopulares() {
+		return new FiltroImpopulares();
+	}
+
 }

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import umu.tds.AppVideo.filtros.FactoriaFiltro;
 import umu.tds.AppVideo.filtros.Filtro;
 import umu.tds.AppVideo.filtros.FiltroMisListas;
 import umu.tds.AppVideo.filtros.FiltroNoFiltro;
@@ -24,7 +25,7 @@ public class Usuario {
 	private List<ListaVideos> listasVideos;
 	private List<Video> recientes;
 	private boolean premium;
-	private Filtro filtro;
+	private FiltroType filtroType;
 
 	//Constructor
 	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password, boolean premium) {
@@ -38,7 +39,7 @@ public class Usuario {
 		this.premium = premium;
 		this.listasVideos = new ArrayList<ListaVideos>(10);
 		this.recientes = new LinkedList<Video>(); 
-		this.filtro = new FiltroNoFiltro();
+		this.filtroType = FiltroType.NOFILTRO;
 	}
 	
 	// Getters & Setteres
@@ -148,25 +149,25 @@ public class Usuario {
 	public void setPremium(boolean premium) {
 		this.premium = premium;
 	}
-
-	
-	public Filtro getFiltro() {
-		return filtro;
-	}
-	
-	public Predicate<Video> getFiltroVideo() {
-		return filtro.getFilter(this);
-	}
-	
-	public void setFiltro(Filtro filtro) {
-		this.filtro = filtro;
-	}
 	
 	public FiltroType getFiltroType() {
-		if(getFiltro() instanceof FiltroMisListas) {
-			return FiltroType.FILTRO_MIS_LISTAS;
+		return filtroType;
+	}
+
+	public void setFiltroType(FiltroType filtroType) {
+		this.filtroType = filtroType;
+	}
+	
+	public Predicate<Video> getFiltroVideo(){
+		return getFiltro().getFilter(this);
+	}
+	
+	public Filtro getFiltro() {
+		switch(this.filtroType) {
+			case FILTRO_MIS_LISTAS: return FactoriaFiltro.getInstance().getFiltroMisListas();
+			case FILTRO_IMPOPULARES: return FactoriaFiltro.getInstance().getFiltroImpopulares();
+			default: return FactoriaFiltro.getInstance().getNoFiltro();
 		}
-		return FiltroType.NOFILTRO;
 	}
 	
 	// toString

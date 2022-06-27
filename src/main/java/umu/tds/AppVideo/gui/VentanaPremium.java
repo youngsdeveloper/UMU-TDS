@@ -85,7 +85,7 @@ public class VentanaPremium extends JPanel {
 		panel.add(lblNewLabel_1);
 		
 		comboBox = new JComboBox();
-		DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] {"Sin filtros", "Mis listas"});
+		DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] {"Sin filtros", "Mis listas","Impopulares"});
 		comboBox.setModel(model);
 		
 		FiltroType filtroActual = Controlador.getInstance().getUsuarioActual().get().getFiltroType();
@@ -208,6 +208,9 @@ public class VentanaPremium extends JPanel {
 				break;
 			case 1:
 				Controlador.getInstance().updateFiltro(FiltroType.FILTRO_MIS_LISTAS);
+				break;
+			case 2:
+				Controlador.getInstance().updateFiltro(FiltroType.FILTRO_IMPOPULARES);
 				break;
 			
 		}

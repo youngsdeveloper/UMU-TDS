@@ -89,8 +89,6 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		propiedades.add(new Propiedad(LISTAS_VIDEOS, obtenerCodigosListas(usuario.getListasVideos())));
 		propiedades.add(new Propiedad(VIDEOS_RECIENTES, obtenerCodigosVideos(usuario.getRecientes())));
 		propiedades.add(new Propiedad(PREMIUM, usuario.isPremium() ? "true" : "false"));
-		
-	
 		propiedades.add(new Propiedad(FILTRO, usuario.getFiltroType().name()));
 
 		eUsuario.setPropiedades(propiedades);
@@ -158,14 +156,7 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		
 		// Set Filtro
 		FiltroType type_filtro = FiltroType.valueOf(servPersistencia.recuperarPropiedadEntidad(eUsuario, FILTRO)); 
-		
-		Filtro filtro = FactoriaFiltro.getInstance().getNoFiltro();
-		
-		switch(type_filtro) {
-			case FILTRO_MIS_LISTAS: filtro = FactoriaFiltro.getInstance().getFiltroMisListas(); break;
-		}
-		
-		usuario.setFiltro(filtro);
+		usuario.setFiltroType(type_filtro);
 
 		return usuario;
 	}

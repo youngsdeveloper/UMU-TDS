@@ -451,13 +451,8 @@ public class Controlador {
 	
 	public void updateFiltro(FiltroType type){
 
-		Filtro filtro = FactoriaFiltro.getInstance().getNoFiltro();
 		
-		switch(type) {
-			case FILTRO_MIS_LISTAS: filtro = FactoriaFiltro.getInstance().getFiltroMisListas(); break;
-		}
-		
-		usuarioActual.get().setFiltro(filtro);
+		usuarioActual.get().setFiltroType(type);
 		
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
 		catalogoUsuario.updateUsuario(usuarioActual.get());
