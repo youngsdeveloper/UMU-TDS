@@ -90,15 +90,8 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		propiedades.add(new Propiedad(VIDEOS_RECIENTES, obtenerCodigosVideos(usuario.getRecientes())));
 		propiedades.add(new Propiedad(PREMIUM, usuario.isPremium() ? "true" : "false"));
 		
-		
-		FiltroType type_filtro = FiltroType.NOFILTRO; 
-		
-		// Persistencia de filtros
-		if(usuario.getFiltro() instanceof FiltroMisListas) {
-			type_filtro = FiltroType.FILTRO_MIS_LISTAS;
-		}
-		
-		propiedades.add(new Propiedad(FILTRO, type_filtro.name()));
+	
+		propiedades.add(new Propiedad(FILTRO, usuario.getFiltroType().name()));
 
 		eUsuario.setPropiedades(propiedades);
 		
@@ -219,15 +212,8 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 				prop.setValor(obtenerCodigosVideos(usuario.getRecientes()));
 			}else if(prop.getNombre().equals(PREMIUM)) {
 				prop.setValor(usuario.isPremium()?"true":"false");
-			}else if(prop.getNombre().equals(FILTRO)) {
-				
-				FiltroType type_filtro = FiltroType.NOFILTRO; 
-				
-				// Persistencia de filtros
-				if(usuario.getFiltro() instanceof FiltroMisListas) {
-					type_filtro = FiltroType.FILTRO_MIS_LISTAS;
-				}
-				prop.setValor(type_filtro.name());
+			}else if(prop.getNombre().equals(FILTRO)) {				
+				prop.setValor(usuario.getFiltroType().name());
 			}
 			
 
