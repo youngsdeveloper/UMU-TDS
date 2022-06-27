@@ -55,6 +55,7 @@ public class Controlador {
 		usuarioLoggedListeners = new LinkedList<UsuarioLoggedListener>();
 		usuarioUpdatedListeners = new LinkedList<UsuarioUpdatedListener>();
 		etiquetaInsertedListeners = new LinkedList<EtiquetaInsertedListener>();
+		videosInsertedListeners = new LinkedList<VideosInsertedListener>();
 	}
 
 	public static Controlador getInstance() {
@@ -248,12 +249,12 @@ public class Controlador {
 		}
 		
 		ListaVideos lista = new ListaVideos(nombre);
-
+		lista.setUsuario(usuarioActual.get());
+		
 		// Insertamos la lista en el DAO
 		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
 		lista = listaDAO.create(lista);
 		
-		usuarioActual.get().addListaToListaVideos(lista);
 		
 		// Actualizamos el usuario actual en el catalogo
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
@@ -264,6 +265,8 @@ public class Controlador {
 
 		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
 		usuarioDAO.update(usuarioActual.get());
+
+		usuarioActual.get().addListaToListaVideos(lista);
 
 		return lista;
 	}
@@ -333,7 +336,6 @@ public class Controlador {
 		ListaVideosDAO listaDAO = FactoriaDAO.getInstance().getListasDAO();
 		listaDAO.delete(lista);
 		
-		usuarioActual.get().getListasVideos().remove(lista);
 		
 		// Actualizamos el usuario actual en el catalogo
 		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
@@ -345,6 +347,9 @@ public class Controlador {
 		
 		// Notificamos actualizacion usuario actual
 		fireUsuarioUpdatedEvent(usuarioActual.get());
+		
+		usuarioActual.get().removeLista(lista);
+
 		
 	}
 	

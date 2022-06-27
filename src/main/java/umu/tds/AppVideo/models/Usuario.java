@@ -111,13 +111,17 @@ public class Usuario {
 	public void addListaToListaVideos(ListaVideos lista) {
 		this.listasVideos.add(lista);
 	}
+
+	public void removeLista(ListaVideos lista) {
+		this.listasVideos.remove(lista);
+	}
 	
 	public void addVideoToListaVideos(Video v, ListaVideos lista){
 		
 		int index = this.listasVideos.indexOf(lista);
-		this.listasVideos.get(index).insertarVideo(v);
-		
+		this.listasVideos.get(index).insertarVideo(v);	
 	}
+	
 	
 	public void addVideoToRecientes(Video v) {
 		

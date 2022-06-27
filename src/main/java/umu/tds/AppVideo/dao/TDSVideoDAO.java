@@ -45,6 +45,9 @@ public class TDSVideoDAO implements VideoDAO{
 	
 	private String obtenerCodigosEtiquetas(List<Etiqueta> etiquetas){
 		String lineas = "";
+		if(etiquetas.isEmpty()) {
+			return lineas;
+		}
 		for (Etiqueta etiqueta: etiquetas) {
 		lineas += etiqueta.getNombre() + " ";
 		}
