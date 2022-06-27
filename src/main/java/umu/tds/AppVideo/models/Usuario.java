@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
+
+import umu.tds.AppVideo.filtros.Filtro;
+import umu.tds.AppVideo.filtros.FiltroMisListas;
+import umu.tds.AppVideo.filtros.FiltroNoFiltro;
+import umu.tds.AppVideo.filtros.FiltroType;
 
 public class Usuario {
 
@@ -18,6 +24,7 @@ public class Usuario {
 	private List<ListaVideos> listasVideos;
 	private List<Video> recientes;
 	private boolean premium;
+	private Filtro filtro;
 
 	//Constructor
 	public Usuario(String nombre, String apellidos, Date fechaNacimiento, String email, String username, String password, boolean premium) {
@@ -31,6 +38,7 @@ public class Usuario {
 		this.premium = premium;
 		this.listasVideos = new ArrayList<ListaVideos>(10);
 		this.recientes = new LinkedList<Video>(); 
+		this.filtro = new FiltroNoFiltro();
 	}
 	
 	// Getters & Setteres
@@ -141,6 +149,25 @@ public class Usuario {
 		this.premium = premium;
 	}
 
+	
+	public Filtro getFiltro() {
+		return filtro;
+	}
+	
+	public Predicate<Video> getFiltroVideo() {
+		return filtro.getFilter(this);
+	}
+	
+	public void setFiltro(Filtro filtro) {
+		this.filtro = filtro;
+	}
+	
+	public FiltroType getFiltroType() {
+		if(getFiltro() instanceof FiltroMisListas) {
+			return FiltroType.FILTRO_MIS_LISTAS;
+		}
+		return FiltroType.NOFILTRO;
+	}
 	
 	// toString
 

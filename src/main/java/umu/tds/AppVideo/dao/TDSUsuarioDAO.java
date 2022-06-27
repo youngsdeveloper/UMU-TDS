@@ -10,6 +10,10 @@ import beans.Entidad;
 import beans.Propiedad;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import umu.tds.AppVideo.filtros.FactoriaFiltro;
+import umu.tds.AppVideo.filtros.Filtro;
+import umu.tds.AppVideo.filtros.FiltroMisListas;
+import umu.tds.AppVideo.filtros.FiltroType;
 import umu.tds.AppVideo.models.ListaVideos;
 import umu.tds.AppVideo.models.Usuario;
 import umu.tds.AppVideo.models.Video;
@@ -30,6 +34,7 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 	private static final String LISTAS_VIDEOS = "listasVideos";
 	private static final String VIDEOS_RECIENTES = "videosRecientes";
 	private static final String PREMIUM = "premium";
+	private static final String FILTRO = "filtro";
 
 	// Constructor
 	private ServicioPersistencia servPersistencia;
@@ -84,6 +89,16 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		propiedades.add(new Propiedad(LISTAS_VIDEOS, obtenerCodigosListas(usuario.getListasVideos())));
 		propiedades.add(new Propiedad(VIDEOS_RECIENTES, obtenerCodigosVideos(usuario.getRecientes())));
 		propiedades.add(new Propiedad(PREMIUM, usuario.isPremium() ? "true" : "false"));
+		
+		
+		FiltroType type_filtro = FiltroType.NOFILTRO; 
+		
+		// Persistencia de filtros
+		if(usuario.getFiltro() instanceof FiltroMisListas) {
+			type_filtro = FiltroType.FILTRO_MIS_LISTAS;
+		}
+		
+		propiedades.add(new Propiedad(FILTRO, type_filtro.name()));
 
 		eUsuario.setPropiedades(propiedades);
 		
@@ -147,6 +162,17 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 		usuario.setListasVideos(listasVideos);
 		usuario.setRecientes(recientes);
 		usuario.setId(eUsuario.getId());
+		
+		// Set Filtro
+		FiltroType type_filtro = FiltroType.valueOf(servPersistencia.recuperarPropiedadEntidad(eUsuario, FILTRO)); 
+		
+		Filtro filtro = FactoriaFiltro.getInstance().getNoFiltro();
+		
+		switch(type_filtro) {
+			case FILTRO_MIS_LISTAS: filtro = FactoriaFiltro.getInstance().getFiltroMisListas(); break;
+		}
+		
+		usuario.setFiltro(filtro);
 
 		return usuario;
 	}
@@ -193,6 +219,15 @@ public class TDSUsuarioDAO implements UsuarioDAO{
 				prop.setValor(obtenerCodigosVideos(usuario.getRecientes()));
 			}else if(prop.getNombre().equals(PREMIUM)) {
 				prop.setValor(usuario.isPremium()?"true":"false");
+			}else if(prop.getNombre().equals(FILTRO)) {
+				
+				FiltroType type_filtro = FiltroType.NOFILTRO; 
+				
+				// Persistencia de filtros
+				if(usuario.getFiltro() instanceof FiltroMisListas) {
+					type_filtro = FiltroType.FILTRO_MIS_LISTAS;
+				}
+				prop.setValor(type_filtro.name());
 			}
 			
 

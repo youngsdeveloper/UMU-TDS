@@ -17,6 +17,9 @@ import umu.tds.AppVideo.dao.VideoDAO;
 import umu.tds.AppVideo.events.EtiquetaInsertedListener;
 import umu.tds.AppVideo.events.UsuarioLoggedListener;
 import umu.tds.AppVideo.events.UsuarioUpdatedListener;
+import umu.tds.AppVideo.filtros.FactoriaFiltro;
+import umu.tds.AppVideo.filtros.Filtro;
+import umu.tds.AppVideo.filtros.FiltroType;
 import umu.tds.AppVideo.models.CatalogoEtiquetas;
 import umu.tds.AppVideo.models.CatalogoUsuarios;
 import umu.tds.AppVideo.models.CatalogoVideos;
@@ -172,6 +175,10 @@ public class Controlador {
 	}
 	
 	public List<Video> searchVideos(String q, Optional<Collection<String>> etiquetasSeleccionadas){
+		
+		if(usuarioActual.isEmpty())
+			return null;
+		
 		CatalogoVideos catalogoVideos = CatalogoVideos.getInstance();
 
 		List<Video> videos = catalogoVideos.getVideos();
@@ -180,6 +187,7 @@ public class Controlador {
 		
 		Stream<Video> stream = videos
 					.stream()
+					.filter(usuarioActual.get().getFiltroVideo()) // Filtro de usuario
 					.filter(video -> video.getTitulo().toLowerCase().contains(q.toLowerCase()));//Fix: Case insesitive search;
 		
 		
@@ -440,6 +448,31 @@ public class Controlador {
 		
 		FactoriaPDF.getInstance().getListVideoPDF().create(usuarioActual.get());
 	}
+	
+	public void updateFiltro(FiltroType type){
+
+		Filtro filtro = FactoriaFiltro.getInstance().getNoFiltro();
+		
+		switch(type) {
+			case FILTRO_MIS_LISTAS: filtro = FactoriaFiltro.getInstance().getFiltroMisListas(); break;
+		}
+		
+		usuarioActual.get().setFiltro(filtro);
+		
+		CatalogoUsuarios catalogoUsuario = CatalogoUsuarios.getInstance();
+		catalogoUsuario.updateUsuario(usuarioActual.get());
+
+		
+		UsuarioDAO usuarioDAO = FactoriaDAO.getInstance().getUsuarioDAO();
+		usuarioDAO.update(usuarioActual.get());
+		
+		
+		fireUsuarioUpdatedEvent(usuarioActual.get());
+
+	
+	}
+	
+	
 }
 
 

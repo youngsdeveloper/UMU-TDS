@@ -12,11 +12,15 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import umu.tds.AppVideo.controlador.Controlador;
+import umu.tds.AppVideo.filtros.Filtro;
+import umu.tds.AppVideo.filtros.FiltroType;
 import umu.tds.AppVideo.models.Usuario;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class VentanaPremium extends JPanel {
 	
@@ -35,6 +39,8 @@ public class VentanaPremium extends JPanel {
 	private JPanel panel_premium_options;
 	private JButton btnGenerarPdfListas;
 	private JPanel panel_1;
+	private JComboBox comboBox;
+	private JLabel lblNewLabel_1;
 	
 	/**
 	 * Create the panel.
@@ -74,6 +80,26 @@ public class VentanaPremium extends JPanel {
 			generatePDF();
 		});
 		panel.add(btnGenerarPdfListas);
+		
+		lblNewLabel_1 = new JLabel("Filtro seleccionado: ");
+		panel.add(lblNewLabel_1);
+		
+		comboBox = new JComboBox();
+		DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] {"Sin filtros", "Mis listas"});
+		comboBox.setModel(model);
+		
+		FiltroType filtroActual = Controlador.getInstance().getUsuarioActual().get().getFiltroType();
+		
+		
+		
+		comboBox.setSelectedIndex(filtroActual.ordinal());
+		comboBox.addActionListener(ac -> {
+
+			updateFiltro(comboBox.getSelectedIndex());
+			
+		});
+		
+		panel.add(comboBox);
 		
 		panel_1 = new JPanel();
 		panel_premium_options.add(panel_1, "cell 0 1,grow");
@@ -173,6 +199,18 @@ public class VentanaPremium extends JPanel {
 	
 	private void generatePDF() {
 		Controlador.getInstance().generarPDF();
+	}
+	
+	private void updateFiltro(int index) {
+		switch(comboBox.getSelectedIndex()) {
+			case 0:
+				Controlador.getInstance().updateFiltro(FiltroType.NOFILTRO);
+				break;
+			case 1:
+				Controlador.getInstance().updateFiltro(FiltroType.FILTRO_MIS_LISTAS);
+				break;
+			
+		}
 	}
 	
 	
