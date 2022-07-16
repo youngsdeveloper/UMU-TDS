@@ -16,7 +16,6 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.sun.tools.javac.util.Context;
 
 import umu.tds.AppVideo.gui.VentanaPrincipal;
 import umu.tds.AppVideo.models.ListaVideos;
